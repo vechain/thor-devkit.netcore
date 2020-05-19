@@ -1,0 +1,23 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Org.VeChain.Thor.Devkit", "Org.VeChain.Thor.Devkit\Org.VeChain.Thor.Devkit.csproj", "{CC3B9C54-3E44-47DA-8871-3A74BD12C689}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Org.VeChain.Thor.Devkit.UnitTest", "Org.VeChain.Thor.Devkit.UnitTest\Org.VeChain.Thor.Devkit.UnitTest.csproj", "{C9514985-038B-4667-B400-0FB8B1AB1855}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CC3B9C54-3E44-47DA-8871-3A74BD12C689}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC3B9C54-3E44-47DA-8871-3A74BD12C689}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC3B9C54-3E44-47DA-8871-3A74BD12C689}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC3B9C54-3E44-47DA-8871-3A74BD12C689}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C9514985-038B-4667-B400-0FB8B1AB1855}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C9514985-038B-4667-B400-0FB8B1AB1855}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C9514985-038B-4667-B400-0FB8B1AB1855}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C9514985-038B-4667-B400-0FB8B1AB1855}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
