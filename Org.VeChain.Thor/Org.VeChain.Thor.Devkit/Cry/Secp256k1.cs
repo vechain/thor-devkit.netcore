@@ -46,7 +46,7 @@ namespace Org.VeChain.Thor.Devkit.Cry
             }
             else
             {
-                throw new Exception("invalid private key");
+                throw new ArgumentException("invalid private key");
             }
         }
 
@@ -68,7 +68,7 @@ namespace Org.VeChain.Thor.Devkit.Cry
         {
             if(signature.Length != 65)
             {
-                throw new Exception("signature invalid");
+                throw new ArgumentException("signature invalid");
             }
 
             byte[] r = new byte[32];
@@ -85,7 +85,7 @@ namespace Org.VeChain.Thor.Devkit.Cry
 
                 if( V != 0 && V != 1)
                 {
-                    throw new Exception("invalid signature recovery");
+                    throw new ArgumentException("invalid signature recovery");
                 }
 
                 ECDSASignature sign = new ECDSASignature(new DerInteger(r).PositiveValue,new DerInteger(s).PositiveValue);
@@ -94,7 +94,7 @@ namespace Org.VeChain.Thor.Devkit.Cry
             }
             catch
             {
-                throw new Exception("signature invalid");
+                throw new ArgumentException("signature invalid");
             }
         }
 
@@ -122,7 +122,7 @@ namespace Org.VeChain.Thor.Devkit.Cry
                 }
             }
             if (recId == -1)
-                throw new Exception("Could not construct a recoverable key. This should never happen.");
+                throw new ArgumentException("Could not construct a recoverable key. This should never happen.");
             return recId;
         }
     }

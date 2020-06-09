@@ -20,4 +20,14 @@
   <ItemGroup>
     <ProjectReference Include="..\Org.VeChain.Thor.Devkit\Org.VeChain.Thor.Devkit.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <None Remove="Resources\keystore.json" />
+    <None Remove="Resources\ballot.sol" />
+    <None Remove="Resources\ballot_abi.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\keystore.json" />
+    <EmbeddedResource Include="Resources\ballot.sol" />
+    <EmbeddedResource Include="Resources\ballot_abi.json" />
+  </ItemGroup>
 </Project>

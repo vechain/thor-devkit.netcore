@@ -2,11 +2,21 @@ using System.Linq;
 using Xunit;
 using Org.VeChain.Thor.Devkit.Extension;
 using Org.VeChain.Thor.Devkit.Cry;
+using System;
+using Xunit.Abstractions;
+using System.Collections.Generic;
 
 namespace Org.VeChain.Thor.Devkit.UnitTest
 {
     public class HashTest
     {
+        private readonly ITestOutputHelper _output;
+
+        public HashTest(ITestOutputHelper testOutputHelper)
+        {
+            _output = testOutputHelper;
+        }
+
         [Fact]
         public void TestBlake2b256()
         {
