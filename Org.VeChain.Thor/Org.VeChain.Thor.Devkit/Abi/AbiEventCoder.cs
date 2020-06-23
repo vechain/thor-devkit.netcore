@@ -47,9 +47,9 @@ namespace Org.VeChain.Thor.Devkit.Abi
             List<string> topicsStr = new List<string>();
             foreach(byte[] topic in topics)
             {
-                topicsStr.Add(topic.ConvertToHexString());
+                topicsStr.Add(topic.ToHexString());
             }
-            List<ParameterOutput> nethTopics = (new EventTopicDecoder(this._definition.Anonymous)).DecodeDefaultTopics(nethEventAbi,topicsStr.ToArray(),data.ConvertToHexString());
+            List<ParameterOutput> nethTopics = (new EventTopicDecoder(this._definition.Anonymous)).DecodeDefaultTopics(nethEventAbi,topicsStr.ToArray(),data.ToHexString());
 
             foreach(ParameterOutput output in nethTopics.OrderBy(item => item.Parameter.Order))
             {

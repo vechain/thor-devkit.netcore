@@ -1,5 +1,6 @@
 using Nethereum.RLP;
 using System.Collections.Generic;
+using Org.VeChain.Thor.Devkit.Extension;
 
 namespace Org.VeChain.Thor.Devkit.Rlp
 {
@@ -87,7 +88,10 @@ namespace Org.VeChain.Thor.Devkit.Rlp
             List<byte[]> datas = new List<byte[]>();
             foreach(IRlpItem item in this)
             {
-                datas.Add(item.Encode());
+                if(item != null)
+                {
+                    datas.Add(item.Encode());
+                }
             }
             return RLP.EncodeList(datas.ToArray());
         }

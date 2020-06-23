@@ -6,7 +6,7 @@ namespace Org.VeChain.Thor.Devkit.Extension
 {
     public static class StringExtension
     {
-        public static byte[] HexToByteArray(this string hex)
+        public static byte[] ToBytes(this string hex)
         {
             if(hex.Substring(0,2).ToLower() == "0x"){
                 hex = hex.ToLower().Replace("0x",String.Empty);
@@ -26,9 +26,15 @@ namespace Org.VeChain.Thor.Devkit.Extension
 
         public static bool IsHexString(this string str)
         {
+            if(str.Length == 0)
+            {
+                return false;
+            }
+
             if(str.Substring(0,2).ToLower() == "0x"){
                 str = str.ToLower().Replace("0x",String.Empty);
             }
+
             Regex regex = new Regex(@"^[0-9a-f]+$");
             return regex.IsMatch(str) && str.Length % 2 == 0;
         }

@@ -28,7 +28,7 @@ namespace Org.VeChain.Thor.Devkit.Certificate
             try
             {
                 JToken json = this.ConvertToJsonObjectWithNoSigner();
-                byte[] msgHash = Blake.CalculateHash(json.ToString());
+                byte[] msgHash = Blake2b.CalculateHash(json.ToString());
 
                 byte[] publicKey = Secp256k1.RecoverPublickey(msgHash,this._certificate.Signature);
                 return this._certificate.Signer.Equals(SimpleWallet.PublicKeyToAddress(publicKey));

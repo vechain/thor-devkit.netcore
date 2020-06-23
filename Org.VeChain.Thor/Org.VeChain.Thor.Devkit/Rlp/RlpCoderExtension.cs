@@ -2,6 +2,7 @@ using Nethereum.RLP;
 using System.Numerics;
 using System.Collections.Generic;
 using System;
+using System.Linq;
 
 namespace Org.VeChain.Thor.Devkit.Rlp
 {
@@ -10,6 +11,11 @@ namespace Org.VeChain.Thor.Devkit.Rlp
         public static IRlpItem EncodeToRlpItem(this BigInteger value)
         {
             return new RlpItem(value.ToBytesForRLPEncoding());
+        }
+
+        public static IRlpItem EncodeToRlpItem(this bool value)
+        {
+            return new RlpItem(value?new byte[1]{0x01}:new byte[1]{0x80});
         }
 
         public static IRlpItem EncodeToRlpItem(this int value)
@@ -49,6 +55,18 @@ namespace Org.VeChain.Thor.Devkit.Rlp
             else
             {
                 return BigInteger.Zero;
+            }
+        }
+
+        public static Boolean DecodeToBoolean(this RlpItem item)
+        {
+            if(item.RlpData != null && item.RlpData.Length != 0)
+            {
+                return item.RlpData.SequenceEqual(new byte[1]{01}) ?  true : false;
+            }
+            else
+            {
+                return false;
             }
         }
 

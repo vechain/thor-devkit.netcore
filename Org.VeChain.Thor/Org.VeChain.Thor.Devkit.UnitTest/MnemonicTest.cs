@@ -14,7 +14,7 @@ namespace Org.VeChain.Thor.Devkit.UnitTest
             var priKey = Mnemonic.DerivePrivateKey(works);
             Assert.True(Mnemonic.Validate(works));
             Assert.True(Secp256k1.IsValidPrivateKey(priKey));
-            Assert.True(priKey.SequenceEqual("0x12ddf96bb7f2c031ee9b776e2b236f2fc46de6f90fb9cd48a82e0c849327d251".HexToByteArray()));
+            Assert.True(priKey.SequenceEqual("0x12ddf96bb7f2c031ee9b776e2b236f2fc46de6f90fb9cd48a82e0c849327d251".ToBytes()));
         }
     }
 }

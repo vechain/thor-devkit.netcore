@@ -6,7 +6,7 @@ using Org.VeChain.Thor.Devkit.Extension;
 
 namespace Org.VeChain.Thor.Devkit.Cry
 {
-    public class Blake
+    public class Blake2b
     {
         public static byte[] CalculateHash(byte[] data)
         {

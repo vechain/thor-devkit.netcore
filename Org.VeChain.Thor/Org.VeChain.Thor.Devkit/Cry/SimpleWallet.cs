@@ -31,7 +31,7 @@ namespace Org.VeChain.Thor.Devkit.Cry
         {
             byte[] hash = (new KeyStoreCrypto()).CalculateKeccakHash(publickey.Slice(1, publickey.Length));
             byte[] address = hash.Slice(12, hash.Length);
-            return address.ConvertToHexString();
+            return address.ToHexString();
         }
 
         public static bool IsValidAddress(string address)

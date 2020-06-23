@@ -25,7 +25,7 @@ namespace Org.VeChain.Thor.Devkit.Certificate
             payload.Type = certificateJson["payload"]["type"].ToString();
             payload.Content = certificateJson["payload"]["content"].ToString();
 
-            certificate.Signature = certificateJson["signer"] != null ? certificateJson["signer"].ToString().HexToByteArray() : new byte[0];
+            certificate.Signature = certificateJson["signer"] != null ? certificateJson["signer"].ToString().ToBytes() : new byte[0];
 
             return null;
         }

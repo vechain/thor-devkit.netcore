@@ -43,7 +43,7 @@ namespace Org.VeChain.Thor.Devkit.UnitTest
             Assert.True(definition.Constant.Equals(false));
             Assert.True(definition.Payable.Equals(false));
             Assert.True(definition.stateMutability.Equals(AbiStateMutability.Nonpayable));
-            Assert.True(definition.Sha3Signature.SequenceEqual("0x27fcbb2f".HexToByteArray()));
+            Assert.True(definition.Sha3Signature.SequenceEqual("0x27fcbb2f".ToBytes()));
 
             Assert.True(definition.inputs.Length == 2);
             Assert.True(definition.inputs[0].Name.Equals("a1"));
@@ -66,7 +66,7 @@ namespace Org.VeChain.Thor.Devkit.UnitTest
             var encodeData = coder.Encode(1,"foo");
 
             var data = "0x27fcbb2f000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000400000000000000000000000000000000000000000000000000000000000000003666f6f0000000000000000000000000000000000000000000000000000000000";
-            Assert.True(encodeData.SequenceEqual(data.HexToByteArray()));
+            Assert.True(encodeData.SequenceEqual(data.ToBytes()));
         }
 
         [Fact]
@@ -75,7 +75,7 @@ namespace Org.VeChain.Thor.Devkit.UnitTest
             string outputData = "0x0000000000000000000000004c6f3ca686c053354a83c030e80d2ee0a000b0cf000000000000000000000000000000000000000000000000000000000000000500000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000005c073850000000000000000000000000000000000000000000000000000000005c073850000000000000000000000000000000000000000000000000000000005c073850";
             string abiJson = "{\"constant\": true,\"inputs\": [{\"name\": \"_tokenId\",\"type\": \"uint256\"}],\"name\": \"getMetadata\",\"outputs\": [{\"name\": \"\",\"type\": \"address\"},{\"name\": \"\",\"type\": \"uint8\"},{\"name\": \"\",\"type\": \"bool\"},{\"name\": \"\",\"type\": \"bool\"},{\"name\": \"\",\"type\": \"uint64\"},{\"name\": \"\",\"type\": \"uint64\"},{\"name\": \"\",\"type\": \"uint64\"}],\"payable\": false,\"stateMutability\": \"view\",\"type\": \"function\"}";
             AbiFuncationCoder coder = new AbiFuncationCoder(abiJson);
-            var output =  coder.Decode(outputData.HexToByteArray());
+            var output =  coder.Decode(outputData.ToBytes());
 
             Assert.True((output[0].Result as string).Equals("0x4c6f3ca686c053354a83c030e80d2ee0a000b0cf"));
             Assert.True(((BigInteger)output[1].Result).Equals(new BigInteger(5)));
@@ -98,9 +98,9 @@ namespace Org.VeChain.Thor.Devkit.UnitTest
 
             byte[][] filters = coder.EncodeFilter(indexed);
 
-            Assert.True(filters[0].SequenceEqual("0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef".HexToByteArray()));
-            Assert.True(filters[1].SequenceEqual("0x000000000000000000000000e4aea9f855d6960d56190fb26e32d0ec2ab40d82".HexToByteArray()));
-            Assert.True(filters[2].SequenceEqual("0x000000000000000000000000f43a84be55e162034f4c13de65294a3875f15bc9".HexToByteArray()));
+            Assert.True(filters[0].SequenceEqual("0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef".ToBytes()));
+            Assert.True(filters[1].SequenceEqual("0x000000000000000000000000e4aea9f855d6960d56190fb26e32d0ec2ab40d82".ToBytes()));
+            Assert.True(filters[2].SequenceEqual("0x000000000000000000000000f43a84be55e162034f4c13de65294a3875f15bc9".ToBytes()));
         }
 
         [Fact]
@@ -110,10 +110,10 @@ namespace Org.VeChain.Thor.Devkit.UnitTest
             AbiEventCoder coder = new AbiEventCoder(abiJson);
 
             List<byte[]> topics = new List<byte[]>();
-            topics.Add("0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef".HexToByteArray());
-            topics.Add("0x000000000000000000000000e4aea9f855d6960d56190fb26e32d0ec2ab40d82".HexToByteArray());
-            topics.Add("0x000000000000000000000000f43a84be55e162034f4c13de65294a3875f15bc9".HexToByteArray());
-            byte[] data = "0x0000000000000000000000000000000000000000000000056bc75e2d63100000".HexToByteArray();
+            topics.Add("0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef".ToBytes());
+            topics.Add("0x000000000000000000000000e4aea9f855d6960d56190fb26e32d0ec2ab40d82".ToBytes());
+            topics.Add("0x000000000000000000000000f43a84be55e162034f4c13de65294a3875f15bc9".ToBytes());
+            byte[] data = "0x0000000000000000000000000000000000000000000000056bc75e2d63100000".ToBytes();
 
             AbiEventTopic[] decode = coder.DecodeTopics(topics.ToArray(),data);
             

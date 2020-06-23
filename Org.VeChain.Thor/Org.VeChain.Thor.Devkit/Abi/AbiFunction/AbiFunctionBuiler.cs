@@ -30,7 +30,7 @@ namespace Org.VeChain.Thor.Devkit.Abi
 
             definition.inputs = (new AbiParameterBuilder()).Builder(abiJson["inputs"].ToString());
             definition.outputs = (new AbiParameterBuilder()).Builder(abiJson["outputs"].ToString());
-            definition.Sha3Signature = GetNethFunctionABI(definition).Sha3Signature.HexToByteArray();
+            definition.Sha3Signature = GetNethFunctionABI(definition).Sha3Signature.ToBytes();
 
             return definition;
         }

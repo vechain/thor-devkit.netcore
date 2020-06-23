@@ -23,8 +23,8 @@ namespace Org.VeChain.Thor.Devkit.UnitTest
             var priKey1 = "0xdce1443bd2ef0c2631adc1c67e5c93f13dc23a41c18b536effbbdcbcdb96fb65";
             var priKey2 = "0x1c67e5c93f13dc23a41c18b536effbb1";
 
-            Assert.True(Secp256k1.IsValidPrivateKey(priKey1.HexToByteArray()));
-            Assert.False(Secp256k1.IsValidPrivateKey(priKey2.HexToByteArray()));
+            Assert.True(Secp256k1.IsValidPrivateKey(priKey1.ToBytes()));
+            Assert.False(Secp256k1.IsValidPrivateKey(priKey2.ToBytes()));
         }
 
         [Fact]

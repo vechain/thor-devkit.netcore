@@ -28,7 +28,7 @@ namespace Org.VeChain.Thor.Devkit.Abi
                     definition.inputs[index] = new AbiEventInputDefinition(inputs[index]["name"].ToString(),inputs[index]["type"].ToString(),(bool)inputs[index]["indexed"]);
                 }
             }
-            definition.Sha3Signature = GetNethEventABI(definition).Sha3Signature.HexToByteArray();
+            definition.Sha3Signature = GetNethEventABI(definition).Sha3Signature.ToBytes();
 
             return definition;
         }

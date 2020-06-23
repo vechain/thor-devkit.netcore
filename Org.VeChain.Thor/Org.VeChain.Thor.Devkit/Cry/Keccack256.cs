@@ -13,7 +13,7 @@ namespace Org.VeChain.Thor.Devkit.Cry
         public static byte[] CalculateHash(string data)
         {
             string hashString = (new Sha3Keccack()).CalculateHash(data);
-            return hashString.HexToByteArray();
+            return hashString.ToBytes();
         }
     }
 }
