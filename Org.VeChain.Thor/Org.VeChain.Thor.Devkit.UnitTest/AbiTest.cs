@@ -75,7 +75,7 @@ namespace Org.VeChain.Thor.Devkit.UnitTest
             string outputData = "0x0000000000000000000000004c6f3ca686c053354a83c030e80d2ee0a000b0cf000000000000000000000000000000000000000000000000000000000000000500000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000005c073850000000000000000000000000000000000000000000000000000000005c073850000000000000000000000000000000000000000000000000000000005c073850";
             string abiJson = "{\"constant\": true,\"inputs\": [{\"name\": \"_tokenId\",\"type\": \"uint256\"}],\"name\": \"getMetadata\",\"outputs\": [{\"name\": \"\",\"type\": \"address\"},{\"name\": \"\",\"type\": \"uint8\"},{\"name\": \"\",\"type\": \"bool\"},{\"name\": \"\",\"type\": \"bool\"},{\"name\": \"\",\"type\": \"uint64\"},{\"name\": \"\",\"type\": \"uint64\"},{\"name\": \"\",\"type\": \"uint64\"}],\"payable\": false,\"stateMutability\": \"view\",\"type\": \"function\"}";
             AbiFuncationCoder coder = new AbiFuncationCoder(abiJson);
-            var output =  coder.Decode(outputData.ToBytes());
+            var output = coder.Decode(outputData.ToBytes());
 
             Assert.True((output[0].Result as string).Equals("0x4c6f3ca686c053354a83c030e80d2ee0a000b0cf"));
             Assert.True(((BigInteger)output[1].Result).Equals(new BigInteger(5)));

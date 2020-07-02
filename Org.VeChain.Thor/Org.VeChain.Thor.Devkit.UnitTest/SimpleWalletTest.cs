@@ -7,7 +7,7 @@ namespace Org.VeChain.Thor.Devkit.UnitTest
     public class SimpleWalletTest
     {
         [Fact]
-        public void GenerateVeChainKeyTest()
+        public void TestGenerateVeChainKey()
         {
             var priKey = "0xdce1443bd2ef0c2631adc1c67e5c93f13dc23a41c18b536effbbdcbcdb96fb65".ToBytes();
             var vechainKey = new SimpleWallet(priKey);
@@ -15,14 +15,14 @@ namespace Org.VeChain.Thor.Devkit.UnitTest
         }
 
         [Fact]
-        public void PrivateKeyToAddress()
+        public void TestPrivateKeyToAddress()
         {
             var priKey = "0xdce1443bd2ef0c2631adc1c67e5c93f13dc23a41c18b536effbbdcbcdb96fb65".ToBytes();
             Assert.True(SimpleWallet.PrivateKeyToAddress(priKey) == "0x7567d83b7b8d80addcb281a71d54fc7b3364ffed");
         }
 
         [Fact]
-        public void PublicKeyToAddressTest()
+        public void TestPublicKeyToAddress()
         {
             var pubKey = "0x0465e790f6065164e2f610297b5358b6c474f999fb5b4d2574fcaffccb59342c1f6f28f0b684ec97946da65cd08a1b9fc276f79d90caed80e56456cebbc165938e".ToBytes();
             var address = "0x7567d83b7b8d80addcb281a71d54fc7b3364ffed";
@@ -30,7 +30,7 @@ namespace Org.VeChain.Thor.Devkit.UnitTest
         }
 
         [Fact]
-        public void IsValidAddressTest()
+        public void TestIsValidAddress()
         {
             var address1 = "0x7567d83b7b8d80addcb281a71d54fc7b3364ffed";
             var address2 = "0x7567d83b7b8d80addcb2";
@@ -42,7 +42,7 @@ namespace Org.VeChain.Thor.Devkit.UnitTest
         }
 
         [Fact]
-        public void ToChecksumAddress()
+        public void TestToChecksumAddress()
         {
             var address = "0x7567d83b7b8d80addcb281a71d54fc7b3364ffed";
             var checksumAddress = SimpleWallet.ToChecksumAddress(address);
@@ -50,7 +50,7 @@ namespace Org.VeChain.Thor.Devkit.UnitTest
         }
 
         [Fact]
-        public void IsChecksumAddress()
+        public void TestIsChecksumAddress()
         {
             var checksumAddress1 = "0x7567D83b7b8d80ADdCb281A71d54Fc7B3364ffed";
             var checksumAddress2 = "0x7567d83b7b8d80ADdCb281a71d54FC7B3364ffeD";
@@ -62,7 +62,7 @@ namespace Org.VeChain.Thor.Devkit.UnitTest
         }
 
         [Fact]
-        public void RecoverAddressTest()
+        public void TestRecoverAddressTest()
         {
             var priKey = "0xdce1443bd2ef0c2631adc1c67e5c93f13dc23a41c18b536effbbdcbcdb96fb65".ToBytes();
             var vechainKey = new SimpleWallet(priKey);

@@ -379,15 +379,33 @@ namespace Org.VeChain.Thor.Devkit.Transaction
             return Blake2b.CalculateHash(stream.ToArray()).ToHexString();
         }
 
+        public void AddVIP191Signature(byte[] senderSignature,byte[] gasPayerSignature)
+        {
+            if(senderSignature == null || senderSignature.Length != 65)
+            {
+                throw new ArgumentException("SenderSignature invalid");
+            }
+
+            if(gasPayerSignature == null || gasPayerSignature.Length != 65)
+            {
+                throw new ArgumentException("GasPayerSignature invalid");
+            }
+
+            MemoryStream stream = new MemoryStream();
+            stream.Append(senderSignature);
+            stream.Append(gasPayerSignature);
+            this.Signature = stream.ToArray();
+        }
+
         private void TrimReserved()
         {
             if(this.Body.Reserved != null && this.Body.Reserved.Unused != null)
             {
                 while(this.Body.Reserved.Unused.Count > 0)
                 {
-                    if(this.Body.Reserved.Unused[this.Body.Reserved.Unused.Count].Length > 0)
+                    if(this.Body.Reserved.Unused[this.Body.Reserved.Unused.Count - 1].Length == 0)
                     {
-                        this.Body.Reserved.Unused.RemoveAt(this.Body.Reserved.Unused.Count);
+                        this.Body.Reserved.Unused.RemoveAt(this.Body.Reserved.Unused.Count - 1);
                     }
                     else
                     {

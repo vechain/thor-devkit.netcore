@@ -34,7 +34,7 @@ namespace Org.VeChain.Thor.Devkit.Cry
         public static byte[] DerivePrivateKey(string[] words)
         {
             HDNode node = new HDNode(words);
-            return node.Derive(0).privateKey;
+            return node.Derive(0).PrivateKey;
         }
 
         public static string[] Generate(){

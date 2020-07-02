@@ -308,14 +308,15 @@ namespace Org.VeChain.Thor.Devkit.Rlp
             get { return typeof(string); }
         }
 
-        public RlpStringKind(int maxLength = 0, bool nullable = false)
+        public RlpStringKind():this("",false,0){}
+        public RlpStringKind(bool nullable):this("",nullable,0){}
+
+        public RlpStringKind(int maxLength, bool nullable):this("",nullable,maxLength){}
+
+        public RlpStringKind(string name,bool nullable = false,int maxLength = 0)
         {
             this._maxLength = maxLength;
             this.Nullable = nullable;
-        }
-
-        public RlpStringKind(string name, int maxLength = 0) : this(maxLength)
-        {
             this.Name = name;
         }
 
@@ -469,6 +470,8 @@ namespace Org.VeChain.Thor.Devkit.Rlp
         {
             get { return typeof(byte[]); }
         }
+
+        public RlpBytesKind():this("",0,false){}
 
         public RlpBytesKind(bool nullable = false):this("",0,nullable){}
         public RlpBytesKind(int maxbytes = 0, bool nullable = false):this("",maxbytes,nullable)

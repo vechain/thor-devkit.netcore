@@ -2,6 +2,7 @@ using System;
 using Newtonsoft.Json.Linq;
 using Org.VeChain.Thor.Devkit.Extension;
 using Org.VeChain.Thor.Devkit.Cry;
+using Newtonsoft.Json;
 
 namespace Org.VeChain.Thor.Devkit.Certificate
 {
@@ -17,6 +18,12 @@ namespace Org.VeChain.Thor.Devkit.Certificate
             this._certificate = certificate;
         }
 
+        public byte[] SigningHash()
+        {
+            JToken json = this.ConvertToJsonObjectWithNoSignature();
+            return Blake2b.CalculateHash(json.ToString(Formatting.None));
+        }
+
         public bool Verify()
         {
             bool result = false;
@@ -27,9 +34,7 @@ namespace Org.VeChain.Thor.Devkit.Certificate
 
             try
             {
-                JToken json = this.ConvertToJsonObjectWithNoSigner();
-                byte[] msgHash = Blake2b.CalculateHash(json.ToString());
-
+                byte[] msgHash = this.SigningHash();
                 byte[] publicKey = Secp256k1.RecoverPublickey(msgHash,this._certificate.Signature);
                 return this._certificate.Signer.Equals(SimpleWallet.PublicKeyToAddress(publicKey));
             }
@@ -43,18 +48,20 @@ namespace Org.VeChain.Thor.Devkit.Certificate
 
         private ICertificate _certificate;
 
-        private JToken ConvertToJsonObjectWithNoSigner()
+        private JToken ConvertToJsonObjectWithNoSignature()
         {
+            JToken payload = new JObject();
+            payload["content"] = this._certificate.Payload.Content;
+            payload["type"] = this._certificate.Payload.Type;
+
             JToken certificateJson = new JObject();
-            certificateJson["purpose"] = this._certificate.Purpose;
-            certificateJson["payload"]["type"] = this._certificate.Payload.Type;
-            certificateJson["payload"]["content"] = this._certificate.Payload.Content;
             certificateJson["domain"] = this._certificate.Domain;
+            certificateJson["payload"] = payload;
+            certificateJson["purpose"] = this._certificate.Purpose;
+            certificateJson["signer"] = this._certificate.Signer.ToLower();
             certificateJson["timestamp"] = this._certificate.Timestamp;
-            certificateJson["signer"] = this._certificate.Signer;
             return certificateJson;
         }
     
-
     }
 }

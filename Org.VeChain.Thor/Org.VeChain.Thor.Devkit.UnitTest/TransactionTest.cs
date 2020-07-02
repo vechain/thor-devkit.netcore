@@ -12,7 +12,6 @@ namespace Org.VeChain.Thor.Devkit.UnitTest
 {
     public class TransactionTest
     {
-
         public Body TestTxBody()
         {
             var txbody = new Body();
@@ -31,7 +30,7 @@ namespace Org.VeChain.Thor.Devkit.UnitTest
         }
 
         [Fact]
-        public void RlpEncodeTest()
+        public void TestRlpEncode()
         {
             var txbody = this.TestTxBody();
             byte[] encode = (new Transaction.Transaction(txbody)).Encode();
@@ -40,7 +39,46 @@ namespace Org.VeChain.Thor.Devkit.UnitTest
         }
 
         [Fact]
-        public void RlpDecodeTest()
+        public void TestNoClauses()
+        {
+            var txbody = new Body();
+            txbody.ChainTag = 74;
+            txbody.BlockRef = "0x005d64da8e7321bd";
+            txbody.Expiration = 18;
+            txbody.GasPriceCoef = 0;
+            txbody.Gas = 21000;
+            txbody.DependsOn = "";
+            txbody.Nonce = "0xd6846cde87878603";
+            txbody.Reserved = null;
+
+            byte[] encode = (new Transaction.Transaction(txbody)).Encode();
+            var encode2 = "0xda4a875d64da8e7321bd12c0808252088088d6846cde87878603c0".ToBytes();
+            Assert.True(encode.SequenceEqual(encode2));
+        }
+
+        [Fact]
+        public void TestHaveUnused()
+        {
+            var txbody = new Body();
+            txbody.ChainTag = 74;
+            txbody.BlockRef = "0x005d64da8e7321bd";
+            txbody.Expiration = 18;
+            txbody.GasPriceCoef = 0;
+            txbody.Gas = 21000;
+            txbody.DependsOn = "";
+            txbody.Nonce = "0xd6846cde87878603";
+            txbody.Reserved = new Reserved();
+            txbody.Reserved.Features = 1;
+            txbody.Reserved.Unused = new System.Collections.Generic.List<byte[]>();
+            txbody.Reserved.Unused.Add("0xa4aDAfAef9Ec07BC4Dc6De146934C7119341eE25".ToBytes());
+
+            byte[] encode = (new Transaction.Transaction(txbody)).Encode();
+            var encode2 = "0xf04a875d64da8e7321bd12c0808252088088d6846cde87878603d60194a4adafaef9ec07bc4dc6de146934c7119341ee25".ToBytes();
+            Assert.True(encode.SequenceEqual(encode2));
+        }
+
+        [Fact]
+        public void TestRlpDecode()
         {
             var rlpcode = "f8844a875d64da8e7321bd12f869e294a4adafaef9ec07bc4dc6de146934c7119341ee25830186a0882398479812734981e294a4adafaef9ec07bc4dc6de146934c7119341ee25830186a0882398479812734981e294a4adafaef9ec07bc4dc6de146934c7119341ee25830186a0882398479812734981808252088088d6846cde87878603c0".ToBytes();
             var transaction = Transaction.Transaction.Decode(rlpcode);
@@ -48,7 +86,7 @@ namespace Org.VeChain.Thor.Devkit.UnitTest
         }
 
         [Fact]
-        public void SignTest()
+        public void TestSign()
         {
             var txbody = this.TestTxBody();
             var transaction = new Transaction.Transaction(txbody);
@@ -62,7 +100,7 @@ namespace Org.VeChain.Thor.Devkit.UnitTest
         }
 
         [Fact]
-        public void DelegateTest()
+        public void TestDelegate()
         {
             var delegated_body = new Body();
             delegated_body.ChainTag = 74;
@@ -92,14 +130,15 @@ namespace Org.VeChain.Thor.Devkit.UnitTest
             var senderSigningHash = transaction.SigningHash();
             var gasPayerSigningHash = transaction.SigningHash(senderAddr);
 
-            MemoryStream stream = new MemoryStream();
-            stream.Append(Cry.Secp256k1.Sign(senderSigningHash,senderPrikey.ToBytes()));
-            stream.Append(Cry.Secp256k1.Sign(gasPayerSigningHash,gasPayerPrikey.ToBytes()));
-            transaction.Signature = stream.ToArray();
+            var senderSignature = Cry.Secp256k1.Sign(senderSigningHash,senderPrikey.ToBytes());
+            var gasPayerSignature = Cry.Secp256k1.Sign(gasPayerSigningHash,gasPayerPrikey.ToBytes());
+
+            transaction.AddVIP191Signature(senderSignature,gasPayerSignature);
 
             Assert.True(transaction.Id == "0xf6a2eab557187af50e4a3abb8a65894eb3be4d58a557b31e8f878ca91c0d9f4e");
             Assert.True(transaction.Origin == senderAddr);
             Assert.True(transaction.Delegator == geaPayerAddr);
         }
+    
     }
 }

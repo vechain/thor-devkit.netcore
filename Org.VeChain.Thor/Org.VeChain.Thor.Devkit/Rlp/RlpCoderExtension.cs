@@ -15,7 +15,7 @@ namespace Org.VeChain.Thor.Devkit.Rlp
 
         public static IRlpItem EncodeToRlpItem(this bool value)
         {
-            return new RlpItem(value?new byte[1]{0x01}:new byte[1]{0x80});
+            return new RlpItem(value?new byte[1]{0x01}:new byte[0]);
         }
 
         public static IRlpItem EncodeToRlpItem(this int value)
