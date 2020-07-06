@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <Authors>mog.lu@vechain.com</Authors>
+    <Copyright>Copyright © VeChain Foundation 2020</Copyright>
+    <NeutralLanguage>en</NeutralLanguage>
+    <PackageLicenseUrl>https://www.gnu.org/licenses/lgpl-3.0.html</PackageLicenseUrl>
+    <Owners>VeChain Foundation</Owners>
+    <Title>Thor Devkit .NetCore</Title>
+    <Description>.NetCore library to assist smooth development on VeChainThor BlockChain for developers and hobbyists.</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Nethereum.Util" Version="3.7.1"/>
+    <PackageReference Include="System.Data.HashFunction.Blake2" Version="2.0.0"/>
+    <PackageReference Include="Nethereum.HdWallet" Version="3.7.1"/>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3"/>
+    <PackageReference Include="Secp256k1.Net" Version="0.1.55"/>
+    <PackageReference Include="Nethereum.Signer" Version="3.7.1"/>
+    <PackageReference Include="SimpleBase" Version="3.0.1"/>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Extension\"/>
+    <Folder Include="Cry\"/>
+  </ItemGroup>
+</Project>
