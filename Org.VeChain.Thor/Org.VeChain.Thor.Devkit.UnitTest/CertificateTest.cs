@@ -18,12 +18,12 @@ namespace Org.VeChain.Thor.Devkit.UnitTest
             info.Timestamp = 1545035330;
             info.Signer = "0x7567d83b7b8d80addcb281a71d54fc7b3364ffed";
 
-            byte[] msgHash = new CertificateCoder(info).SigningHash();
+            byte[] msgHash = CertificateCoder.SigningHash(info);
 
             var signature = Cry.Secp256k1.Sign(msgHash,"0xdce1443bd2ef0c2631adc1c67e5c93f13dc23a41c18b536effbbdcbcdb96fb65".ToBytes());
             info.Signature = signature;
 
-            Assert.True(new CertificateCoder(info).Verify());
+            Assert.True(CertificateCoder.Verify(info));
         }
     }
 }

@@ -1,10 +1,13 @@
 # VeChain Thor Devkit in .NetCore
 
-## Installation
+[![](https://badgen.net/badge/preview/0.9.0/orange)]()
+[![](https://badgen.net/badge/.NetCore/=3.1/blue)]()
 
-``` shell
-    dotnet add pakcage Org.VeChain.Thor.Devkit --version 1.0.0
-```
+.Net Core library to assist smooth development on VeChain for developers and hobbyists.
+
+## Release Notes
+
+See [ReleaseNotes.md](ReleaseNotes.md)
 
 ## Usage
 
@@ -272,3 +275,24 @@ var txbody = new Body();
 ```
 
 ### Certificate
+
+- Certificate
+
+``` C#
+    Certificate.Certificate info = new Certificate.Certificate();
+    info.Purpose = "identification";
+    info.Payload = new CertificatePayload();
+    info.Payload.Type = "text";
+    info.Payload.Content = "fyi";
+    info.Domain = "localhost";
+    info.Timestamp = 1545035330;
+    info.Signer = "0x7567d83b7b8d80addcb281a71d54fc7b3364ffed";
+
+    byte[] msgHash = CertificateCoder.SigningHash(info);
+
+    var signature = Cry.Secp256k1.Sign(msgHash,"0xdce1443bd2ef0c2631adc1c67e5c93f13dc23a41c18b536effbbdcbcdb96fb65".ToBytes());
+    info.Signature = signature;
+
+    CertificateCoder.Verify(info);
+    // True
+```
