@@ -101,7 +101,7 @@ See [ReleaseNotes.md](ReleaseNotes.md)
     // 0x7567D83b7b8d80ADdCb281A71d54Fc7B3364ffed
 ```
 
-### Abi
+### ABI
 
 - ABI Parames Builder
 
@@ -190,7 +190,7 @@ See [ReleaseNotes.md](ReleaseNotes.md)
     console.log(decode[2].Definition.Name == "_value" && decode[2].Definition.Indexed == false && decode[2].Result.ToString().Equals("100000000000000000000"));
 ```
 
-### Rlp
+### RLP
 
 - Scalar RLP Encode & Decode
 
