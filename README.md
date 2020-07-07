@@ -16,6 +16,12 @@ See [ReleaseNotes.md](ReleaseNotes.md)
     using Org.VeChain.Thor.Devkit.Extension;
 ```
 
+## Acknowledgement
+
+A Special shout out to following projects:
+
+- [Nethereum](https://github.com/Nethereum/Nethereum)
+
 ## API
 
 ### Crypto
@@ -295,4 +301,10 @@ var txbody = new Body();
 
     CertificateCoder.Verify(info);
     // True
+```
+
+## Testing
+
+``` shell
+    dotnet test ./Org.VeChain.Thor/Org.VeChain.Thor.Devkit.UnitTest
 ```
