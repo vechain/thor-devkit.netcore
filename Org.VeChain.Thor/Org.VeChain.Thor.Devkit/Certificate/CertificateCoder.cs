@@ -8,12 +8,22 @@ namespace Org.VeChain.Thor.Devkit.Certificate
 {
     public class CertificateCoder
     {
+        /// <summary>
+        /// use black2b to calculate the certificate info hash
+        /// </summary>
+        /// <param name="certificate"></param>
+        /// <returns></returns>
         public static byte[] SigningHash(ICertificate certificate)
         {
             JToken json = CertificateCoder.ConvertToJsonObjectWithNoSignature(certificate);
             return Blake2b.CalculateHash(json.ToString(Formatting.None));
         }
 
+        /// <summary>
+        /// verify certificate signture
+        /// </summary>
+        /// <param name="certificate"></param>
+        /// <returns></returns>
         public static bool Verify(ICertificate certificate)
         {
             bool result = false;

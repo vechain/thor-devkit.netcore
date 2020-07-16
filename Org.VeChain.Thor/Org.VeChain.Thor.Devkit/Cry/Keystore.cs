@@ -11,6 +11,11 @@ namespace Org.VeChain.Thor.Devkit.Cry
         public string id { get; internal set; }
         public int version { get; internal set; }
 
+        /// <summary>
+        /// the keystore support version 3
+        /// </summary>
+        /// <param name="json"></param>
+        /// <returns></returns>
         public static Keystore CreateFromJson(string json)
         {
             Keystore keystore = new Keystore();

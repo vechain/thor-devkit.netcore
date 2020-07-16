@@ -8,12 +8,22 @@ namespace Org.VeChain.Thor.Devkit.Abi
 {
     public class AbiContractBuilder
     {
+        /// <summary>
+        /// instantiation a contract builder with abi json string
+        /// </summary>
+        /// <param name="abiString"></param>
+        /// <returns></returns>
         public IAbiContractDefinition ContractBuilder(string abiString)
         {
             var abiJson = JsonConvert.DeserializeObject<JArray>(abiString);
             return this.ContractBuilder(abiJson);
         }
 
+        /// <summary>
+        /// instantiation a contract builder with abi json object
+        /// </summary>
+        /// <param name="abiJson"></param>
+        /// <returns></returns>
         public IAbiContractDefinition ContractBuilder(JArray abiJson)
         {
             AbiContractDefinition definition = new AbiContractDefinition();

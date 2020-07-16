@@ -8,6 +8,11 @@ namespace Org.VeChain.Thor.Devkit.Cry
 {
     public class Blake2b
     {
+        /// <summary>
+        /// return hash
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
         public static byte[] CalculateHash(byte[] data)
         {
             Blake2BConfig config = new Blake2BConfig();
@@ -16,6 +21,11 @@ namespace Org.VeChain.Thor.Devkit.Cry
             return blake2B.ComputeHash(data).Hash;
         }
 
+        /// <summary>
+        /// use UTF8 encode data and calculate hash
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
         public static byte[] CalculateHash(string data)
         {
             Blake2BConfig config = new Blake2BConfig();

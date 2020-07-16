@@ -22,10 +22,28 @@ namespace Org.VeChain.Thor.Devkit.Cry
 
     public class HDNode:IHDNode
     {
+        /// <summary>
+        /// instantiation a HDNode with words
+        /// </summary>
+        /// <param name="words"></param>
+        /// <param name="path"> vechain default path is m/44'/818'/0'/0/address_index</param>
+        /// <returns></returns>
         public HDNode(string[] words,string path =  VeChainConstant.VET_DERIVATION_PATH):this(new Wallet(Mnemonic.WordsJoin(words),"",path),HDNodeType.Mnemonic){}
 
+        /// <summary>
+        /// instantiation a HDNode with seed
+        /// </summary>
+        /// <param name="seed">derive the correct seed for BIP32.</param>
+        /// <param name="path"></param>
+        /// <returns></returns>
         public HDNode(byte[] seed,string path =  VeChainConstant.VET_DERIVATION_PATH):this(new Wallet(seed,path),HDNodeType.Seed){}
 
+        /// <summary>
+        /// this hdnode can't derive child hdnode with 'private key'.
+        /// </summary>
+        /// <param name="privateKey"></param>
+        /// <param name="chainCode"></param>
+        /// <returns></returns>
         public HDNode(byte[] privateKey,byte[] chainCode):this(new ExtKey(new Key(privateKey),chainCode)){}
 
         public byte[] PrivateKey { get; protected set;}

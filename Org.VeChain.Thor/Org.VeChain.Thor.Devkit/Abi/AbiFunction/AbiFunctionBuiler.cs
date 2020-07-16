@@ -10,12 +10,22 @@ namespace Org.VeChain.Thor.Devkit.Abi
 {
     public class AbiFunctionBuiler
     {
+        /// <summary>
+        /// instantiation a function builder with abi json string
+        /// </summary>
+        /// <param name="abiString"></param>
+        /// <returns></returns>
         public IAbiFunctionDefinition Builder(string abiString)
         {
             var abiJson = JsonConvert.DeserializeObject<JToken>(abiString);
             return this.Builder(abiJson);
         }
 
+        /// <summary>
+        /// instantiation a function builder with abi json object
+        /// </summary>
+        /// <param name="abiJson"></param>
+        /// <returns></returns>
         public IAbiFunctionDefinition Builder(JToken abiJson)
         {
             AbiFunctionDefinition definition = new AbiFunctionDefinition();

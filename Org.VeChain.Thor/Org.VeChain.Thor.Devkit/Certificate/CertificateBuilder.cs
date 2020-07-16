@@ -6,12 +6,22 @@ namespace Org.VeChain.Thor.Devkit.Certificate
 {
     public class CertificateBuilder
     {
+        /// <summary>
+        /// instantiation a certificate builder with abi json string
+        /// </summary>
+        /// <param name="certificateJson"></param>
+        /// <returns></returns>
         public ICertificate Builder(string certificateJson)
         {
             var abiJson = JsonConvert.DeserializeObject<JToken>(certificateJson);
             return this.Builder(abiJson);
         }
 
+        /// <summary>
+        /// nstantiation a certificate builder with abi json object
+        /// </summary>
+        /// <param name="certificateJson"></param>
+        /// <returns></returns>
         public ICertificate Builder(JToken certificateJson)
         {
             Certificate certificate = new Certificate();

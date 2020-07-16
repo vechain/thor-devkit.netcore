@@ -21,12 +21,22 @@ namespace Org.VeChain.Thor.Devkit.Cry
 
         public readonly string address;
 
+        /// <summary>
+        /// return address starts with '0x'.
+        /// </summary>
+        /// <param name="priKey"></param>
+        /// <returns></returns>
         public static string PrivateKeyToAddress(byte[] priKey)
         {
             byte[] pubKey = Secp256k1.DerivePublicKey(priKey);
             return SimpleWallet.PublicKeyToAddress(pubKey);
         }
 
+        /// <summary>
+        /// return address starts with '0x'.
+        /// </summary>
+        /// <param name="publickey"></param>
+        /// <returns></returns>
         public static string PublicKeyToAddress(byte[] publickey)
         {
             byte[] hash = (new KeyStoreCrypto()).CalculateKeccakHash(publickey.Slice(1, publickey.Length));

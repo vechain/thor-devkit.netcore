@@ -6,6 +6,10 @@ namespace Org.VeChain.Thor.Devkit.Abi
     {
         public IAbiEventInputDefinition Definition;
 
+        /// <summary>
+        /// return event result
+        /// </summary>
+        /// <value></value>
         public dynamic Result
         {
             get{ return this._result; }

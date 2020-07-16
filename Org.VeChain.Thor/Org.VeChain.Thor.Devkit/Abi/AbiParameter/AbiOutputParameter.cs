@@ -6,6 +6,7 @@ namespace Org.VeChain.Thor.Devkit.Abi
 
     public class AbiOutputParameter
     {
+        
         public AbiOutputParameter(string abitype,string name = "")
         {
             this._nethABIType = ABIType.CreateABIType(abitype);

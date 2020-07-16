@@ -7,12 +7,22 @@ namespace Org.VeChain.Thor.Devkit.Abi
 {
     public class AbiEventBuilder
     {
+        /// <summary>
+        /// instantiation a event builder with abi json string
+        /// </summary>
+        /// <param name="abiString"></param>
+        /// <returns></returns>
         public IAbiEventDefinition Builder(string abiString)
         {
             var abiJson = JsonConvert.DeserializeObject<JToken>(abiString);
             return this.Builder(abiJson);
         }
 
+        /// <summary>
+        /// instantiation a contract builder with abi json object
+        /// </summary>
+        /// <param name="abiJson"></param>
+        /// <returns></returns>
         public IAbiEventDefinition Builder(JToken abiJson)
         {
             AbiEventDefinition definition = new AbiEventDefinition();
