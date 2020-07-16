@@ -1,6 +1,6 @@
 # VeChain Thor Devkit in .NetCore
 
-[![](https://badgen.net/badge/preview/0.9.0/orange)]()
+[![](https://badgen.net/badge/Release/1.0.0/green)]()
 [![](https://badgen.net/badge/.NetCore/=3.1/blue)]()
 
 .Net Core library to assist smooth development on VeChain for developers and hobbyists.
