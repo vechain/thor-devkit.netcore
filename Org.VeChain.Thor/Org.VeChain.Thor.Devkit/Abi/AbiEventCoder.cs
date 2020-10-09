@@ -24,26 +24,24 @@ namespace Org.VeChain.Thor.Devkit.Abi
         {
             if(this._definition.inputs.IndexedCount() >= indexed.Count)
             {
-                if((this._definition.Anonymous && indexed.Count <= 4) || !this._definition.Anonymous && indexed.Count <= 3)
+                if(this._definition.Anonymous && indexed.Count <= 4 || !this._definition.Anonymous && indexed.Count <= 3)
                 {
                     return this.Encode(indexed);
                 }
-                else
-                {
-                    throw new ArgumentException("invalid topics count");
-                }
-            }
-            else
-            {
+
                 throw new ArgumentException("invalid topics count");
             }
+
+            throw new ArgumentException("invalid topics count");
         }
 
         public AbiEventTopic[] DecodeTopics(byte[][] topics,byte[] data)
         {
             List<AbiEventTopic> result = new List<AbiEventTopic>();
-            EventABI nethEventAbi = new EventABI(this._definition.Name,this._definition.Anonymous);
-            nethEventAbi.InputParameters = AbiEventBuilder.GetNethParameters(this._definition.inputs);
+            EventABI nethEventAbi = new EventABI(this._definition.Name, this._definition.Anonymous)
+            {
+                InputParameters = AbiEventBuilder.GetNethParameters(this._definition.inputs)
+            };
             List<string> topicsStr = new List<string>();
             foreach(byte[] topic in topics)
             {
@@ -53,7 +51,7 @@ namespace Org.VeChain.Thor.Devkit.Abi
 
             foreach(ParameterOutput output in nethTopics.OrderBy(item => item.Parameter.Order))
             {
-                IAbiEventInputDefinition definition = this._definition.inputs.Where(item => item.Name.Equals(output.Parameter.Name)).First();
+                IAbiEventInputDefinition definition = this._definition.inputs.First(item => item.Name.Equals(output.Parameter.Name));
                 result.Add(new AbiEventTopic(definition,output.Result));
             }
 
@@ -77,7 +75,7 @@ namespace Org.VeChain.Thor.Devkit.Abi
                 else
                 {
                     var arg = args[input.Name];
-                    if(this.IsDynamicType(input.ABIType))
+                    if(IsDynamicType(input.ABIType))
                     {
                         if(input.ABIType == "string")
                         {
@@ -86,14 +84,14 @@ namespace Org.VeChain.Thor.Devkit.Abi
                         }
                         else
                         {
-                            if((arg is string) && (arg as string).IsHexString())
+                            if(arg is string stringArgs && stringArgs.IsHexString())
                             {
                                 byte[] topic = Keccack256.CalculateHash(arg);
                                 topics.Add(topic);
                             }
                             else
                             {
-                                throw new ArgumentException(string.Format("invalid {0} value",input.ABIType));
+                                throw new ArgumentException($"invalid {input.ABIType} value");
                             }
                         }
                     }
@@ -107,20 +105,22 @@ namespace Org.VeChain.Thor.Devkit.Abi
             return topics.ToArray();
         }
 
-        private bool IsDynamicType(string abiType)
+        private static bool IsDynamicType(string abiType)
         {
             return abiType == "bytes" || abiType == "string" || abiType.EndsWith("[]");
         }
 
-        private IAbiEventDefinition _definition;
+        private readonly IAbiEventDefinition _definition;
 
         private Parameter[] GetNethParameters(IAbiEventInputDefinition[] definitions)
         {
             Parameter[] result = new Parameter[definitions.Length];
             for(int index = 0;index < definitions.Length;index++)
             {
-                Parameter nethParame = new Parameter(definitions[index].ABIType,definitions[index].Name,index+1);
-                nethParame.Indexed = definitions[index].Indexed;
+                Parameter nethParame = new Parameter(definitions[index].ABIType, definitions[index].Name, index + 1)
+                {
+                    Indexed = definitions[index].Indexed
+                };
                 result[index] = nethParame;
             }
             return result;

@@ -1,7 +1,5 @@
 ﻿using System.Linq;
-using System;
 using Xunit;
-using System.Text;
 using Xunit.Abstractions;
 using Org.VeChain.Thor.Devkit.Cry;
 using Org.VeChain.Thor.Devkit.Extension;

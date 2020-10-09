@@ -7,12 +7,12 @@ namespace Org.VeChain.Thor.Devkit.Cry
     {
         public static byte[] CalculateHash(byte[] data)
         {
-            return (new Sha3Keccack()).CalculateHash(data);
+            return new Sha3Keccack().CalculateHash(data);
         }
 
         public static byte[] CalculateHash(string data)
         {
-            string hashString = (new Sha3Keccack()).CalculateHash(data);
+            string hashString = new Sha3Keccack().CalculateHash(data);
             return hashString.ToBytes();
         }
     }

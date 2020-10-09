@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using Nethereum.HdWallet;
 using Org.VeChain.Thor.Devkit.Extension;
 using NBitcoin;
@@ -57,12 +56,12 @@ namespace Org.VeChain.Thor.Devkit.Cry
             {
                 case HDNodeType.Mnemonic:
                 {
-                    string derivePath = string.Format("{0}/{1}",this._wallet.Path,index.ToString());
+                    string derivePath = $"{this._wallet.Path}/{index.ToString()}";
                     return new HDNode(new Wallet(Mnemonic.WordsJoin(this._wallet.Words),derivePath),this.NodeType);
                 }
                 case HDNodeType.Seed:
                 {
-                    string derivePath = string.Format("{0}/{1}",this._wallet.Path,index.ToString());
+                    string derivePath = $"{this._wallet.Path}/{index.ToString()}";
                     return new HDNode(new Wallet(this._wallet.Seed.ToBytes(),derivePath),this.NodeType);
                 }
                 case HDNodeType.PrivateKey:

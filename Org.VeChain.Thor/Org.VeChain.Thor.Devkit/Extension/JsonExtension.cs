@@ -13,10 +13,8 @@ namespace Org.VeChain.Thor.Devkit.Extension
             {
                 return value.ToBytes();
             }
-            else
-            {
-                throw new ArgumentException("the value isn't hexstring");
-            }
+
+            throw new ArgumentException("the value isn't hexstring");
         }
 
         public override void WriteJson(JsonWriter writer, [AllowNull] byte[] value, JsonSerializer serializer)

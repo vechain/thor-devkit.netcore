@@ -1,9 +1,7 @@
-using System.Security.Cryptography.X509Certificates;
 using Nethereum.KeyStore.Crypto;
 using Org.VeChain.Thor.Devkit.Extension;
 using System.Text.RegularExpressions;
 using Nethereum.Util;
-
 
 namespace Org.VeChain.Thor.Devkit.Cry
 {
@@ -13,7 +11,7 @@ namespace Org.VeChain.Thor.Devkit.Cry
         {
             this._privateKey = priKey;
             this._publicKey = Secp256k1.DerivePublicKey(this._privateKey);
-            this.address = SimpleWallet.PublicKeyToAddress(this._publicKey);
+            this.address = PublicKeyToAddress(this._publicKey);
         }
 
         public const string AddressEmptyAsHex = "0x0";
@@ -29,7 +27,7 @@ namespace Org.VeChain.Thor.Devkit.Cry
         public static string PrivateKeyToAddress(byte[] priKey)
         {
             byte[] pubKey = Secp256k1.DerivePublicKey(priKey);
-            return SimpleWallet.PublicKeyToAddress(pubKey);
+            return PublicKeyToAddress(pubKey);
         }
 
         /// <summary>
@@ -39,7 +37,7 @@ namespace Org.VeChain.Thor.Devkit.Cry
         /// <returns></returns>
         public static string PublicKeyToAddress(byte[] publickey)
         {
-            byte[] hash = (new KeyStoreCrypto()).CalculateKeccakHash(publickey.Slice(1, publickey.Length));
+            byte[] hash = new KeyStoreCrypto().CalculateKeccakHash(publickey.Slice(1, publickey.Length));
             byte[] address = hash.Slice(12, hash.Length);
             return address.ToHexString();
         }
@@ -68,11 +66,10 @@ namespace Org.VeChain.Thor.Devkit.Cry
         public static string RecoverAddress(byte[] msgHash,byte[] signature)
         {
             byte[] publickey = Secp256k1.RecoverPublickey(msgHash,signature);
-            return SimpleWallet.PublicKeyToAddress(publickey);
+            return PublicKeyToAddress(publickey);
         }
 
         private byte[] _privateKey;
         private byte[] _publicKey;
-
     }
 }

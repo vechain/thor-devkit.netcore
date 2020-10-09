@@ -1,4 +1,3 @@
-using System.Reflection;
 using System;
 
 namespace Org.VeChain.Thor.Devkit.Rlp
@@ -8,31 +7,32 @@ namespace Org.VeChain.Thor.Devkit.Rlp
         public static byte[] Encode(IRlpKind kind,dynamic obj)
         {
             IRlpItem rlpItem = null;
-            if(kind is IRlpScalarKind)
+            if(kind is IRlpScalarKind scalarKind)
             {
-                rlpItem = (kind as IRlpScalarKind).EncodeToRlp(obj);
+                rlpItem = scalarKind.EncodeToRlp(obj);
                 return rlpItem.Encode();
             }
-            else if(kind is IRlpArrayKind)
+
+            if(kind is IRlpArrayKind arrayKind)
             {
                 if(obj is Array)
                 {
-                    rlpItem = (kind as IRlpArrayKind).EncodeToRlp(obj);
+                    rlpItem = arrayKind.EncodeToRlp(obj);
                     return rlpItem.Encode();
                 }
-                else
-                {
-                    throw new ArgumentException("invalid item type");
-                }
+
+                throw new ArgumentException("invalid item type");
             }
-            else if(kind is IRplStructKind)
+
+            if(kind is IRplStructKind structKind)
             {
-                rlpItem = (kind as IRplStructKind).EncodeToRlp(obj);
+                rlpItem = structKind.EncodeToRlp(obj);
                 return rlpItem.Encode();
             }
-            else if(kind is IRlpCustomKind)
+
+            if(kind is IRlpCustomKind customKind)
             {
-                rlpItem = (kind as IRlpCustomKind).EncodeToRlp(obj);
+                rlpItem = customKind.EncodeToRlp(obj);
                 return rlpItem.Encode();
             }
             return rlpItem.Encode();
@@ -42,21 +42,21 @@ namespace Org.VeChain.Thor.Devkit.Rlp
         {
             dynamic result = null;
             IRlpItem rlpItem = new RlpItem(data);
-            if(kind is IRlpScalarKind)
+            if(kind is IRlpScalarKind scalarKind)
             {
-                result = (kind as IRlpScalarKind).DecodeFromRlp(rlpItem);
+                result = scalarKind.DecodeFromRlp(rlpItem);
             }
-            else if(kind is IRlpArrayKind)
+            else if(kind is IRlpArrayKind arrayKind)
             {
-                result = (kind as IRlpArrayKind).DecodeFromRlp(rlpItem,type);
+                result = arrayKind.DecodeFromRlp(rlpItem,type);
             }
-            else if(kind is IRplStructKind)
+            else if(kind is IRplStructKind structKind)
             {
-                result = (kind as IRplStructKind).DecodeFromRlp(rlpItem,type);
+                result = structKind.DecodeFromRlp(rlpItem,type);
             }
-            else if(kind is IRlpCustomKind)
+            else if(kind is IRlpCustomKind customKind)
             {
-                result = (kind as IRlpCustomKind).DecodeFromRlp(rlpItem,type);
+                result = customKind.DecodeFromRlp(rlpItem,type);
             }
             return result;
         }

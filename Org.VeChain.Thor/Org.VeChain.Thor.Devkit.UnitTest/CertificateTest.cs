@@ -9,14 +9,14 @@ namespace Org.VeChain.Thor.Devkit.UnitTest
         [Fact]
         public void TestCertificateVerify()
         {
-            Certificate.Certificate info = new Certificate.Certificate();
-            info.Purpose = "identification";
-            info.Payload = new CertificatePayload();
-            info.Payload.Type = "text";
-            info.Payload.Content = "fyi";
-            info.Domain = "localhost";
-            info.Timestamp = 1545035330;
-            info.Signer = "0x7567d83b7b8d80addcb281a71d54fc7b3364ffed";
+            Certificate.Certificate info = new Certificate.Certificate
+            {
+                Purpose = "identification",
+                Payload = new CertificatePayload {Type = "text", Content = "fyi"},
+                Domain = "localhost",
+                Timestamp = 1545035330,
+                Signer = "0x7567d83b7b8d80addcb281a71d54fc7b3364ffed"
+            };
 
             byte[] msgHash = CertificateCoder.SigningHash(info);
 

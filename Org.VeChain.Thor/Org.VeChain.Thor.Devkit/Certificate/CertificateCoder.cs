@@ -1,6 +1,5 @@
 using System;
 using Newtonsoft.Json.Linq;
-using Org.VeChain.Thor.Devkit.Extension;
 using Org.VeChain.Thor.Devkit.Cry;
 using Newtonsoft.Json;
 
@@ -26,7 +25,7 @@ namespace Org.VeChain.Thor.Devkit.Certificate
         /// <returns></returns>
         public static bool Verify(ICertificate certificate)
         {
-            bool result = false;
+            const bool result = false;
             if(certificate.Signer == null || certificate.Signature.Length != 65)
             {
                 throw new ArgumentException("invalid signature");
@@ -40,7 +39,6 @@ namespace Org.VeChain.Thor.Devkit.Certificate
             }
             catch
             {
-                result = false;
             }
 
             return result;

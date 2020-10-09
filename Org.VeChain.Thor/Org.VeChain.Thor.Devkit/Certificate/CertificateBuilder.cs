@@ -18,22 +18,26 @@ namespace Org.VeChain.Thor.Devkit.Certificate
         }
 
         /// <summary>
-        /// nstantiation a certificate builder with abi json object
+        /// instantiation a certificate builder with abi json object
         /// </summary>
         /// <param name="certificateJson"></param>
         /// <returns></returns>
         public ICertificate Builder(JToken certificateJson)
         {
-            Certificate certificate = new Certificate();
+            Certificate certificate = new Certificate
+            {
+                Purpose = certificateJson["purpose"].ToString(),
+                Domain = certificateJson["domain"].ToString(),
+                Timestamp = (int) certificateJson["timestamp"],
+                Signer = certificateJson["signer"].ToString().ToLower()
+            };
 
-            certificate.Purpose = certificateJson["purpose"].ToString();
-            certificate.Domain = certificateJson["domain"].ToString();
-            certificate.Timestamp = (int)certificateJson["timestamp"];
-            certificate.Signer = certificateJson["signer"].ToString().ToLower();
 
-            CertificatePayload payload = new CertificatePayload();
-            payload.Type = certificateJson["payload"]["type"].ToString();
-            payload.Content = certificateJson["payload"]["content"].ToString();
+            CertificatePayload payload = new CertificatePayload
+            {
+                Type = certificateJson["payload"]["type"].ToString(),
+                Content = certificateJson["payload"]["content"].ToString()
+            };
 
             certificate.Signature = certificateJson["signer"] != null ? certificateJson["signer"].ToString().ToBytes() : new byte[0];
 

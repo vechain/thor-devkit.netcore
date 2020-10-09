@@ -1,5 +1,3 @@
-
-
 namespace Org.VeChain.Thor.Devkit.Abi
 {
     public class AbiEventTopic
@@ -12,11 +10,8 @@ namespace Org.VeChain.Thor.Devkit.Abi
         /// <value></value>
         public dynamic Result
         {
-            get{ return this._result; }
-            protected internal set
-            {
-                this._result = value;
-            }
+            get => this._result;
+            protected internal set => this._result = value;
         }
 
         public AbiEventTopic(){}

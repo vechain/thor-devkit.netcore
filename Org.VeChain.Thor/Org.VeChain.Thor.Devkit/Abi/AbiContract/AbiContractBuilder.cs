@@ -28,19 +28,19 @@ namespace Org.VeChain.Thor.Devkit.Abi
         {
             AbiContractDefinition definition = new AbiContractDefinition();
 
-            JToken constructorJson = abiJson.Where(item => item["type"].ToString() == "constructor").First();
+            JToken constructorJson = Enumerable.Where(abiJson, item => item["type"].ToString() == "constructor").First();
             if(constructorJson != null)
             {
                 definition.Constructor = this.ConstructorBuilder(constructorJson);
             }
 
-            IEnumerable<JToken> funcitons = abiJson.Where(item => item["type"].ToString() == "function");
-            List<IAbiFunctionDefinition> funcitonList = new List<IAbiFunctionDefinition>();
-            foreach(JToken item in funcitons)
+            IEnumerable<JToken> functions = abiJson.Where(item => item["type"].ToString() == "function");
+            List<IAbiFunctionDefinition> functionList = new List<IAbiFunctionDefinition>();
+            foreach(JToken item in functions)
             {
-                funcitonList.Add(new AbiFunctionBuiler().Builder(item));
+                functionList.Add(new AbiFunctionBuiler().Builder(item));
             }
-            definition.Functions = funcitonList.ToArray();
+            definition.Functions = functionList.ToArray();
 
             IEnumerable<JToken> events = abiJson.Where(item => item["type"].ToString() == "event");
             List<IAbiEventDefinition> eventList = new List<IAbiEventDefinition>();
@@ -70,9 +70,8 @@ namespace Org.VeChain.Thor.Devkit.Abi
 
         private IAbiConstructorDefinition ConstructorBuilder(JToken abiJson)
         {
-            AbiConstructorDefinition definition = new AbiConstructorDefinition();
-            definition.Payable = (bool)abiJson["payable"];
-            
+            AbiConstructorDefinition definition = new AbiConstructorDefinition {Payable = (bool) abiJson["payable"]};
+
             AbiStateMutability stateMutability;
             Enum.TryParse<AbiStateMutability>(abiJson["stateMutability"].ToString(),true,out stateMutability);
             definition.stateMutability = stateMutability;

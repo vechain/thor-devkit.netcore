@@ -1,4 +1,3 @@
-
 using Org.VeChain.Thor.Devkit.Rlp;
 using System.Numerics;
 using System;
@@ -7,7 +6,6 @@ using Org.VeChain.Thor.Devkit.Extension;
 using System.IO;
 using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
-using Newtonsoft.Json.Converters;
 using Newtonsoft.Json;
 
 namespace Org.VeChain.Thor.Devkit.Transaction
@@ -104,11 +102,12 @@ namespace Org.VeChain.Thor.Devkit.Transaction
                     return null;
                 }
 
-                if(obj is Reserved)
+                if(obj is Reserved reserved)
                 {
-                    var reserved = (obj as Reserved);
-                    RlpArray result = new RlpArray();
-                    result.Add((new RlpIntKind("",4,false)).EncodeToRlp(reserved.Features));
+                    RlpArray result = new RlpArray
+                    {
+                        new RlpIntKind("", 4, false).EncodeToRlp(reserved.Features)
+                    };
                     if(reserved.Unused != null)
                     {
                         foreach(byte[] item in reserved.Unused)
@@ -118,10 +117,8 @@ namespace Org.VeChain.Thor.Devkit.Transaction
                     }
                     return result;
                 }
-                else
-                {
-                    throw new ArgumentException("value type invalid");
-                }
+
+                throw new ArgumentException("value type invalid");
             }
 
             public dynamic DecodeFromRlp(IRlpItem rlp,Type type)
@@ -135,21 +132,24 @@ namespace Org.VeChain.Thor.Devkit.Transaction
 
                 if (rlp.RlpType == RlpType.Array)
                 {
-                    rlpArray = (rlp as RlpArray);
+                    rlpArray = rlp as RlpArray;
                 }
                 else
                 {
-                    rlpArray = ((new RlpArray()).Decode(rlp.RlpData) as RlpArray);
+                    rlpArray = new RlpArray().Decode(rlp.RlpData) as RlpArray;
                 }
 
                 if(rlpArray != null && rlpArray.Count != 0)
                 {
-                    if(rlpArray[rlpArray.Count - 1].RlpData.Length == 0)
+                    if(rlpArray[^1].RlpData.Length == 0)
                     {
                         throw new ArgumentException("invalid reserved fields: not trimmed");
                     }
-                    Reserved reserved = new Reserved();
-                    reserved.Features = new RlpIntKind().DecodeFromRlp(rlpArray[0]);
+
+                    Reserved reserved = new Reserved
+                    {
+                        Features = new RlpIntKind().DecodeFromRlp(rlpArray[0])
+                    };
                     if(rlpArray.Count >1)
                     {
                         reserved.Unused = new List<byte[]>();
@@ -173,8 +173,10 @@ namespace Org.VeChain.Thor.Devkit.Transaction
                     return new RlpArray();
                 }
 
-                Reserved reserved = new Reserved();
-                reserved.Features = (item["Features"] as JValue).ToObject<int>();
+                Reserved reserved = new Reserved
+                {
+                    Features = (item["Features"] as JValue).ToObject<int>()
+                };
 
                 if(item["Unused"] != null && item["Unused"].Type != JTokenType.Null)
                 {
@@ -183,7 +185,7 @@ namespace Org.VeChain.Thor.Devkit.Transaction
                         if((item["Unused"] as JArray).Count > 0)
                         {
                             reserved.Unused = new List<byte[]>();
-                            foreach(var data in (item["Unused"] as JArray))
+                            foreach(var data in item["Unused"] as JArray)
                             {
                                 string jValue = (data as JValue).Value as string;
                                 if(jValue.Length != 0)
@@ -220,7 +222,7 @@ namespace Org.VeChain.Thor.Devkit.Transaction
                     return null;
                 }
                 string jsonstr = JsonConvert.SerializeObject(reserved,new JsonBytesConverter());
-                return JObject.Parse(jsonstr);;
+                return JObject.Parse(jsonstr);
             }
         }
     }
@@ -229,23 +231,13 @@ namespace Org.VeChain.Thor.Devkit.Transaction
     {
         public static readonly int DELEGATED_MASK = 1;
         public byte[] Signature { get; set; }
-        public string Id 
-        {
-            get { return this.CalculateID(); }
-        }
+        public string Id => this.CalculateID();
         public Body Body { get; protected internal set; }
-        public string Origin 
-        {
-            get { return this.GetOrigin(); }
-        }
-        public string Delegator
-        {
-            get { return this.GetDelegator(); }
-        }
-        public bool IsDelegated
-        {
-            get { return this.GetDelegated(); }
-        }
+        public string Origin => this.GetOrigin();
+
+        public string Delegator => this.GetDelegator();
+
+        public bool IsDelegated => this.GetDelegated();
 
         public long IntrinsicGas()
         {
@@ -311,10 +303,8 @@ namespace Org.VeChain.Thor.Devkit.Transaction
             {
                 return RlpCode.Decode(Transaction.UnsignedRlpDefinition(),raw,typeof(Transaction));
             }
-            else
-            {
-                return RlpCode.Decode(Transaction.SignedRlpDefinition(),raw,typeof(Transaction));
-            }
+
+            return RlpCode.Decode(Transaction.SignedRlpDefinition(),raw,typeof(Transaction));
         }
     
         public static IRlpKind UnsignedRlpDefinition()
@@ -344,10 +334,8 @@ namespace Org.VeChain.Thor.Devkit.Transaction
                     stream.Append(delegateFor.ToBytes());
                     return Blake2b.CalculateHash(stream.ToArray());
                 }
-                else
-                {
-                    throw new ArgumentException("delegateFor expected address");
-                }
+
+                throw new ArgumentException("delegateFor expected address");
             }
             return hash;
         }
@@ -399,11 +387,11 @@ namespace Org.VeChain.Thor.Devkit.Transaction
 
         private void TrimReserved()
         {
-            if(this.Body.Reserved != null && this.Body.Reserved.Unused != null)
+            if(Body.Reserved?.Unused != null)
             {
                 while(this.Body.Reserved.Unused.Count > 0)
                 {
-                    if(this.Body.Reserved.Unused[this.Body.Reserved.Unused.Count - 1].Length == 0)
+                    if(this.Body.Reserved.Unused[^1].Length == 0)
                     {
                         this.Body.Reserved.Unused.RemoveAt(this.Body.Reserved.Unused.Count - 1);
                     }
@@ -417,13 +405,13 @@ namespace Org.VeChain.Thor.Devkit.Transaction
     
         private bool GetDelegated()
         {
-            return this.Body.Reserved != null && (this.Body.Reserved.Features & Transaction.DELEGATED_MASK) == Transaction.DELEGATED_MASK;
+            return this.Body.Reserved != null && (this.Body.Reserved.Features & DELEGATED_MASK) == DELEGATED_MASK;
         }
     
         private bool GetSignatureValid()
         {
             int expectedSigLen = this.GetDelegated() ? 65 * 2 : 65;
-            return this.Signature != null ? this.Signature.Length == expectedSigLen : false;
+            return this.Signature != null && this.Signature.Length == expectedSigLen;
         }
     
         private string GetOrigin()
