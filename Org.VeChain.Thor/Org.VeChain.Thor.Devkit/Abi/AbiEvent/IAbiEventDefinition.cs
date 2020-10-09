@@ -5,7 +5,7 @@ namespace Org.VeChain.Thor.Devkit.Abi
     public interface IAbiEventDefinition
     {
         /// <summary>
-        /// retrun abi anonymous
+        /// return abi anonymous
         /// </summary>
         /// <value></value>
         bool Anonymous { get; }
@@ -17,7 +17,7 @@ namespace Org.VeChain.Thor.Devkit.Abi
         string Name { get; }
 
         /// <summary>
-        /// return abi type, IAbiEventDefinition allways return 'event'
+        /// return abi type, IAbiEventDefinition always return 'event'
         /// </summary>
         /// <value></value>
         string Type { get; }
@@ -53,7 +53,7 @@ namespace Org.VeChain.Thor.Devkit.Abi
         /// <returns></returns>
         public static int IndexedCount(this IAbiEventInputDefinition[] inputs)
         {
-            return inputs.Where(item => item.Indexed).Count();
+            return inputs.Count(item => item.Indexed);
         }
     }
 }

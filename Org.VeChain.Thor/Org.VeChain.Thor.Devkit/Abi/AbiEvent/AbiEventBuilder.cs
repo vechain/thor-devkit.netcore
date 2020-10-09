@@ -45,18 +45,22 @@ namespace Org.VeChain.Thor.Devkit.Abi
 
         private EventABI GetNethEventABI(IAbiEventDefinition definition)
         {
-            EventABI eventABI = new EventABI(definition.Name,definition.Anonymous);
-            eventABI.InputParameters = AbiEventBuilder.GetNethParameters(definition.inputs);
+            EventABI eventABI = new EventABI(definition.Name, definition.Anonymous)
+            {
+                InputParameters = GetNethParameters(definition.inputs)
+            };
             return eventABI;
         }
 
         protected internal static Parameter[] GetNethParameters(IAbiEventInputDefinition[] parames)
         {
             Parameter[] result = new Parameter[parames.Length];
-            for(int index = 0;index < parames.Length;index++)
+            for(int index = 0; index < parames.Length; index++)
             {
-                Parameter parame = new Parameter(parames[index].ABIType,parames[index].Name,index+1);
-                parame.Indexed = parames[index].Indexed;
+                Parameter parame = new Parameter(parames[index].ABIType, parames[index].Name, index + 1)
+                {
+                    Indexed = parames[index].Indexed
+                };
                 result[index] = parame;
             }
             return result;
@@ -67,10 +71,7 @@ namespace Org.VeChain.Thor.Devkit.Abi
             public bool Anonymous { get; protected internal set; }
             public string Name { get; protected internal set; }
 
-            public string Type 
-            {
-                get { return "event"; }
-            }
+            public string Type => "event";
 
             public IAbiEventInputDefinition[] inputs { get; protected internal set; }
 

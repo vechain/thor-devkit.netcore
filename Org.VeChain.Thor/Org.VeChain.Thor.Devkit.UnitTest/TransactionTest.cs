@@ -4,9 +4,6 @@ using System.Numerics;
 using Org.VeChain.Thor.Devkit.Extension;
 using System.Linq;
 using Org.VeChain.Thor.Devkit.Rlp;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System.IO;
 
 namespace Org.VeChain.Thor.Devkit.UnitTest
 {
@@ -14,15 +11,17 @@ namespace Org.VeChain.Thor.Devkit.UnitTest
     {
         public Body TestTxBody()
         {
-            var txbody = new Body();
-            txbody.ChainTag = 74;
-            txbody.BlockRef = "0x005d64da8e7321bd";
-            txbody.Expiration = 18;
-            txbody.GasPriceCoef = 0;
-            txbody.Gas = 21000;
-            txbody.DependsOn = "";
-            txbody.Nonce = "0xd6846cde87878603";
-            txbody.Reserved = null;
+            var txbody = new Body
+            {
+                ChainTag = 74,
+                BlockRef = "0x005d64da8e7321bd",
+                Expiration = 18,
+                GasPriceCoef = 0,
+                Gas = 21000,
+                DependsOn = "",
+                Nonce = "0xd6846cde87878603",
+                Reserved = null
+            };
             txbody.Clauses.Add(new Clause("0xa4aDAfAef9Ec07BC4Dc6De146934C7119341eE25",new BigInteger(100000),"0x2398479812734981"));
             txbody.Clauses.Add(new Clause("0xa4aDAfAef9Ec07BC4Dc6De146934C7119341eE25",new BigInteger(100000),"0x2398479812734981"));
             txbody.Clauses.Add(new Clause("0xa4aDAfAef9Ec07BC4Dc6De146934C7119341eE25",new BigInteger(100000),"0x2398479812734981"));
@@ -33,7 +32,7 @@ namespace Org.VeChain.Thor.Devkit.UnitTest
         public void TestRlpEncode()
         {
             var txbody = this.TestTxBody();
-            byte[] encode = (new Transaction.Transaction(txbody)).Encode();
+            byte[] encode = new Transaction.Transaction(txbody).Encode();
             var encode2 = "f8844a875d64da8e7321bd12f869e294a4adafaef9ec07bc4dc6de146934c7119341ee25830186a0882398479812734981e294a4adafaef9ec07bc4dc6de146934c7119341ee25830186a0882398479812734981e294a4adafaef9ec07bc4dc6de146934c7119341ee25830186a0882398479812734981808252088088d6846cde87878603c0".ToBytes();
             Assert.True(encode.SequenceEqual(encode2));
         }
@@ -41,17 +40,19 @@ namespace Org.VeChain.Thor.Devkit.UnitTest
         [Fact]
         public void TestNoClauses()
         {
-            var txbody = new Body();
-            txbody.ChainTag = 74;
-            txbody.BlockRef = "0x005d64da8e7321bd";
-            txbody.Expiration = 18;
-            txbody.GasPriceCoef = 0;
-            txbody.Gas = 21000;
-            txbody.DependsOn = "";
-            txbody.Nonce = "0xd6846cde87878603";
-            txbody.Reserved = null;
+            var txbody = new Body
+            {
+                ChainTag = 74,
+                BlockRef = "0x005d64da8e7321bd",
+                Expiration = 18,
+                GasPriceCoef = 0,
+                Gas = 21000,
+                DependsOn = "",
+                Nonce = "0xd6846cde87878603",
+                Reserved = null
+            };
 
-            byte[] encode = (new Transaction.Transaction(txbody)).Encode();
+            byte[] encode = new Transaction.Transaction(txbody).Encode();
             var encode2 = "0xda4a875d64da8e7321bd12c0808252088088d6846cde87878603c0".ToBytes();
             Assert.True(encode.SequenceEqual(encode2));
         }
@@ -59,20 +60,26 @@ namespace Org.VeChain.Thor.Devkit.UnitTest
         [Fact]
         public void TestHaveUnused()
         {
-            var txbody = new Body();
-            txbody.ChainTag = 74;
-            txbody.BlockRef = "0x005d64da8e7321bd";
-            txbody.Expiration = 18;
-            txbody.GasPriceCoef = 0;
-            txbody.Gas = 21000;
-            txbody.DependsOn = "";
-            txbody.Nonce = "0xd6846cde87878603";
-            txbody.Reserved = new Reserved();
-            txbody.Reserved.Features = 1;
-            txbody.Reserved.Unused = new System.Collections.Generic.List<byte[]>();
-            txbody.Reserved.Unused.Add("0xa4aDAfAef9Ec07BC4Dc6De146934C7119341eE25".ToBytes());
+            var txbody = new Body
+            {
+                ChainTag = 74,
+                BlockRef = "0x005d64da8e7321bd",
+                Expiration = 18,
+                GasPriceCoef = 0,
+                Gas = 21000,
+                DependsOn = "",
+                Nonce = "0xd6846cde87878603",
+                Reserved = new Reserved
+                {
+                    Features = 1,
+                    Unused = new System.Collections.Generic.List<byte[]>
+                    {
+                        "0xa4aDAfAef9Ec07BC4Dc6De146934C7119341eE25".ToBytes()
+                    }
+                }
+            };
 
-            byte[] encode = (new Transaction.Transaction(txbody)).Encode();
+            byte[] encode = new Transaction.Transaction(txbody).Encode();
             var encode2 = "0xf04a875d64da8e7321bd12c0808252088088d6846cde87878603d60194a4adafaef9ec07bc4dc6de146934c7119341ee25".ToBytes();
             Assert.True(encode.SequenceEqual(encode2));
         }
@@ -92,7 +99,7 @@ namespace Org.VeChain.Thor.Devkit.UnitTest
             var transaction = new Transaction.Transaction(txbody);
             transaction.Signature = Cry.Secp256k1.Sign(transaction.SigningHash(),"0xdce1443bd2ef0c2631adc1c67e5c93f13dc23a41c18b536effbbdcbcdb96fb65".ToBytes());
             
-            var rlp = (Transaction.Transaction.UnsignedRlpDefinition() as RlpStructKind).EncodeToRlp(transaction.Body);
+            (Transaction.Transaction.UnsignedRlpDefinition() as RlpStructKind)?.EncodeToRlp(transaction.Body);
 
             Assert.True(transaction.Signature.SequenceEqual("0x5ca73236f37c9d7b29f32af81e4812a33cfbfac573544684e374e2fb90c637740d406198252371fa3e64341e4bd0226268a774e4112913429750b3fb3fad56bf00".ToBytes()));
             Assert.True(transaction.Origin == "0x7567d83b7b8d80addcb281a71d54fc7b3364ffed");
@@ -102,21 +109,22 @@ namespace Org.VeChain.Thor.Devkit.UnitTest
         [Fact]
         public void TestDelegate()
         {
-            var delegated_body = new Body();
-            delegated_body.ChainTag = 74;
-            delegated_body.BlockRef = "0x005d64da8e7321bd";
-            delegated_body.Expiration = 18;
-            delegated_body.GasPriceCoef = 0;
-            delegated_body.Gas = 21000;
-            delegated_body.DependsOn = "";
-            delegated_body.Nonce = "0xd6846cde87878603";
-            delegated_body.Reserved = new Reserved();
-            delegated_body.Reserved.Features = 1;
-            delegated_body.Clauses.Add(new Clause("0xa4aDAfAef9Ec07BC4Dc6De146934C7119341eE25",new BigInteger(100000),"0x2398479812734981"));
-            delegated_body.Clauses.Add(new Clause("0xa4aDAfAef9Ec07BC4Dc6De146934C7119341eE25",new BigInteger(100000),"0x2398479812734981"));
-            delegated_body.Clauses.Add(new Clause("0xa4aDAfAef9Ec07BC4Dc6De146934C7119341eE25",new BigInteger(100000),"0x2398479812734981"));
+            var delegatedBody = new Body
+            {
+                ChainTag = 74,
+                BlockRef = "0x005d64da8e7321bd",
+                Expiration = 18,
+                GasPriceCoef = 0,
+                Gas = 21000,
+                DependsOn = "",
+                Nonce = "0xd6846cde87878603",
+                Reserved = new Reserved {Features = 1}
+            };
+            delegatedBody.Clauses.Add(new Clause("0xa4aDAfAef9Ec07BC4Dc6De146934C7119341eE25",new BigInteger(100000),"0x2398479812734981"));
+            delegatedBody.Clauses.Add(new Clause("0xa4aDAfAef9Ec07BC4Dc6De146934C7119341eE25",new BigInteger(100000),"0x2398479812734981"));
+            delegatedBody.Clauses.Add(new Clause("0xa4aDAfAef9Ec07BC4Dc6De146934C7119341eE25",new BigInteger(100000),"0x2398479812734981"));
 
-            var transaction = new Transaction.Transaction(delegated_body);
+            var transaction = new Transaction.Transaction(delegatedBody);
             Assert.True(transaction.IsDelegated);
 
             var senderPrikey = "0xdce1443bd2ef0c2631adc1c67e5c93f13dc23a41c18b536effbbdcbcdb96fb65";

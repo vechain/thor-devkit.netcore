@@ -1,6 +1,3 @@
-using System.Numerics;
-using System.Collections.Generic;
-using System;
 using Nethereum.ABI;
 
 namespace Org.VeChain.Thor.Devkit.Abi
@@ -34,7 +31,7 @@ namespace Org.VeChain.Thor.Devkit.Abi
         }
 
         private dynamic _value;
-        private Nethereum.ABI.ABIType _nethABIType;
+        private ABIType _nethABIType;
 
         public class AbiInputParameterDefinition:IAbiParameterDefinition
         {

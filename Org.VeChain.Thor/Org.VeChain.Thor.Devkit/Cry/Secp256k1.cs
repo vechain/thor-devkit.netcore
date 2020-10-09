@@ -2,9 +2,7 @@
 using System.Text;
 using Nethereum.Signer.Crypto;
 using System.Collections.Generic;
-using Nethereum.Signer;
 using Org.BouncyCastle.Math;
-using Org.VeChain.Thor.Devkit.Extension;
 using System.Linq;
 using Org.BouncyCastle.Asn1;
 
@@ -18,7 +16,7 @@ namespace Org.VeChain.Thor.Devkit.Cry
 
         public static bool IsValidPrivateKey(byte[] privatekey)
         {
-            return privatekey.Length == 32 && !privatekey.Equals(Secp256k1.ZERO) && (new BigInteger(privatekey)).CompareTo(new BigInteger(N)) < 0;
+            return privatekey.Length == 32 && !privatekey.Equals(ZERO) && (new BigInteger(privatekey)).CompareTo(new BigInteger(N)) < 0;
         }
 
         public delegate byte[] generatePrivateKeyHandler();
@@ -44,10 +42,8 @@ namespace Org.VeChain.Thor.Devkit.Cry
                 ECKey key = new ECKey(privatekey,true);
                 return key.GetPubKey(false);
             }
-            else
-            {
-                throw new ArgumentException("invalid private key");
-            }
+
+            throw new ArgumentException("invalid private key");
         }
 
         public static byte[] Sign(byte[] msgHash, byte[] privatekey)
@@ -55,8 +51,8 @@ namespace Org.VeChain.Thor.Devkit.Cry
 
             ECKey ecKey = new ECKey(privatekey,true);
             var sign = ecKey.Sign(msgHash);
-            var recId = Secp256k1.CalculateRecId(ecKey,sign, msgHash);
-            sign.V = new byte[1]{Convert.ToByte(recId)};
+            var recId = CalculateRecId(ecKey,sign, msgHash);
+            sign.V = new[]{Convert.ToByte(recId)};
             List<byte> signature = new List<byte>();
             signature.AddRange(sign.R.ToByteArrayUnsigned());
             signature.AddRange(sign.S.ToByteArrayUnsigned());
@@ -111,14 +107,11 @@ namespace Org.VeChain.Thor.Devkit.Cry
             for (var i = 0; i < 4; i++)
             {
                 var rec = ECKey.RecoverFromSignature(i, signature, hash, false);
-                if (rec != null)
+                var k = rec?.GetPubKey(false);
+                if (k != null && k.SequenceEqual(uncompressedPublicKey))
                 {
-                    var k = rec.GetPubKey(false);
-                    if (k != null && k.SequenceEqual(uncompressedPublicKey))
-                    {
-                        recId = i;
-                        break;
-                    }
+                    recId = i;
+                    break;
                 }
             }
             if (recId == -1)

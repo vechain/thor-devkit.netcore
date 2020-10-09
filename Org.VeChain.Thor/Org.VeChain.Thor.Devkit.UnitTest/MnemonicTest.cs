@@ -10,7 +10,7 @@ namespace Org.VeChain.Thor.Devkit.UnitTest
         [Fact]
         public void TestWords()
         {
-            var works = new string[12]{"mouse","brave","fun","viable","utility","veteran","luggage","area","bike","myself","target","thunder"};
+            var works = new string[]{"mouse","brave","fun","viable","utility","veteran","luggage","area","bike","myself","target","thunder"};
             var priKey = Mnemonic.DerivePrivateKey(works);
             Assert.True(Mnemonic.Validate(works));
             Assert.True(Secp256k1.IsValidPrivateKey(priKey));

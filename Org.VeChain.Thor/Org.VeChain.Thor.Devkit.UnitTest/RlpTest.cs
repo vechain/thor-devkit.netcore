@@ -1,14 +1,10 @@
 using Xunit;
-using Xunit.Abstractions;
 using Org.VeChain.Thor.Devkit.Rlp;
 using Org.VeChain.Thor.Devkit.Extension;
 using System.Numerics;
 using System.Globalization;
 using System.Linq;
-using System.Collections.Generic;
 using System;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace Org.VeChain.Thor.Devkit.UnitTest
 {
@@ -29,27 +25,28 @@ namespace Org.VeChain.Thor.Devkit.UnitTest
         [Fact]
         public void TestRlpBoolean()
         {
-            var cases = new EncodeTestCase[]{
+            var cases = new[]{
                 new EncodeTestCase(true,new byte[1]{0x01}),
                 new EncodeTestCase(false,new byte[1]{0x80}),
             };
 
             foreach(var item in cases)
             {
-                byte[] encode = (new RLpBooleanKind()).EncodeToRlp(item.Input).Encode();
+                byte[] encode = new RLpBooleanKind().EncodeToRlp(item.Input).Encode();
                 if(!encode.SequenceEqual(item.Output))
                 {
                     Assert.True(false,string.Format("Rlp faild,input:{0}output:{1}",item.Input,item.Output));
                     break;
                 }
             }
+            
             Assert.True(true);
         }
 
         [Fact]
         public void TestRlpInt()
         {
-            var cases = new EncodeTestCase[]{
+            var cases = new[]{
                 new EncodeTestCase(0,"0x80".ToBytes()),
                 new EncodeTestCase(127,"0x7F".ToBytes()),
                 new EncodeTestCase(128,"0x8180".ToBytes()),
@@ -61,20 +58,21 @@ namespace Org.VeChain.Thor.Devkit.UnitTest
 
             foreach(var item in cases)
             {
-                byte[] encode = (new RlpIntKind()).EncodeToRlp(item.Input).Encode();
+                byte[] encode = new RlpIntKind().EncodeToRlp(item.Input).Encode();
                 if(!encode.SequenceEqual(item.Output))
                 {
                     Assert.True(false,string.Format("Rlp faild,input:{0}output:{1}",item.Input,item.Output));
                     break;
                 }
             }
+            
             Assert.True(true);
         }
     
         [Fact]
         public void TestRlpLong()
         {
-            var cases = new EncodeTestCase[]{
+            var cases = new[]{
                 new EncodeTestCase(Convert.ToInt64("0xFFFFFFFF",16),"0x84FFFFFFFF".ToBytes()),
                 new EncodeTestCase(Convert.ToInt64("0xFFFFFFFFFF",16),"0x85FFFFFFFFFF".ToBytes()),
                 new EncodeTestCase(Convert.ToInt64("0xFFFFFFFFFFFF",16),"0x86FFFFFFFFFFFF".ToBytes()),
@@ -84,20 +82,21 @@ namespace Org.VeChain.Thor.Devkit.UnitTest
 
             foreach(var item in cases)
             {
-                byte[] encode = (new RlpLongKind()).EncodeToRlp(item.Input).Encode();
+                byte[] encode = new RlpLongKind().EncodeToRlp(item.Input).Encode();
                 if(!encode.SequenceEqual(item.Output))
                 {
                     Assert.True(false,string.Format("Rlp faild,input:{0}output:{1}",item.Input,item.Output));
                     break;
                 }
             }
+            
             Assert.True(true);
         }
 
         [Fact]
         public void TestRlpBigInteger()
         {
-            var cases = new EncodeTestCase[]{
+            var cases = new[]{
                 new EncodeTestCase(BigInteger.Zero,"0x80".ToBytes()),
                 new EncodeTestCase(new BigInteger(1),"0x01".ToBytes()),
                 new EncodeTestCase(new BigInteger(127),"0x7F".ToBytes()),
@@ -116,20 +115,21 @@ namespace Org.VeChain.Thor.Devkit.UnitTest
 
             foreach(var item in cases)
             {
-                byte[] encode = (new RlpBigIntegerKind()).EncodeToRlp(item.Input).Encode();
+                byte[] encode = new RlpBigIntegerKind().EncodeToRlp(item.Input).Encode();
                 if(!encode.SequenceEqual(item.Output))
                 {
                     Assert.True(false,string.Format("Rlp faild,input:{0}output:{1}",item.Input,item.Output));
                     break;
                 }
             }
+            
             Assert.True(true);
         }
     
         [Fact]
         public void TestRlpBytes()
         {
-            var cases = new EncodeTestCase[]{
+            var cases = new[]{
                 new EncodeTestCase(new byte[]{},"0x80".ToBytes()),
                 new EncodeTestCase(new byte[]{0x7E},"0x7E".ToBytes()),
                 new EncodeTestCase(new byte[]{0x7F},"0x7F".ToBytes()),
@@ -139,20 +139,21 @@ namespace Org.VeChain.Thor.Devkit.UnitTest
 
             foreach(var item in cases)
             {
-                byte[] encode = (new RlpBytesKind()).EncodeToRlp(item.Input).Encode();
+                byte[] encode = new RlpBytesKind().EncodeToRlp(item.Input).Encode();
                 if(!encode.SequenceEqual(item.Output))
                 {
                     Assert.True(false,string.Format("Rlp faild,input:{0}output:{1}",item.Input,item.Output));
                     break;
                 }
             }
+            
             Assert.True(true);
         }
     
         [Fact]
         public void TestRlpHexString()
         {
-            var cases = new EncodeTestCase[]{
+            var cases = new[]{
                 new EncodeTestCase("0x7E","0x7E".ToBytes()),
                 new EncodeTestCase("0x7F","0x7F".ToBytes()),
                 new EncodeTestCase("0x80","0x8180".ToBytes()),
@@ -160,20 +161,21 @@ namespace Org.VeChain.Thor.Devkit.UnitTest
 
             foreach(var item in cases)
             {
-                byte[] encode = (new RlpHexStringKind()).EncodeToRlp(item.Input).Encode();
+                byte[] encode = new RlpHexStringKind().EncodeToRlp(item.Input).Encode();
                 if(!encode.SequenceEqual(item.Output))
                 {
                     Assert.True(false,string.Format("Rlp faild,input:{0}output:{1}",item.Input,item.Output));
                     break;
                 }
             }
+            
             Assert.True(true);
         }
     
         [Fact]
         public void TestRlpString()
         {
-            var cases = new EncodeTestCase[]{
+            var cases = new[]{
                 new EncodeTestCase("","0x80".ToBytes()),
                 new EncodeTestCase("dog","0x83646F67".ToBytes()),
                 new EncodeTestCase("Lorem ipsum dolor sit amet, consectetur adipisicing eli","0xB74C6F72656D20697073756D20646F6C6F722073697420616D65742C20636F6E7365637465747572206164697069736963696E6720656C69".ToBytes()),
@@ -183,27 +185,28 @@ namespace Org.VeChain.Thor.Devkit.UnitTest
 
             foreach(var item in cases)
             {
-                byte[] encode = (new RlpStringKind()).EncodeToRlp(item.Input).Encode();
+                byte[] encode = new RlpStringKind().EncodeToRlp(item.Input).Encode();
                 if(!encode.SequenceEqual(item.Output))
                 {
                     Assert.True(false,string.Format("Rlp faild,input:{0}output:{1}",item.Input,item.Output));
                     break;
                 }
             }
+            
             Assert.True(true);
         }
     
         [Fact]
         public void TestRlpArray()
         {
-            var cases1 = new EncodeTestCase[]{
+            var cases1 = new[]{
                 new EncodeTestCase(new int[0],"0xC0".ToBytes()),
                 new EncodeTestCase(new int[3]{1,2,3},"0xC3010203".ToBytes())
             };
 
             foreach(var item in cases1)
             {
-                byte[] encode = (new RlpArrayKind(new RlpIntKind(true)).EncodeToRlp(item.Input).Encode());
+                byte[] encode = new RlpArrayKind(new RlpIntKind(true)).EncodeToRlp(item.Input).Encode();
                 if(!encode.SequenceEqual(item.Output))
                 {
                     Assert.True(false,string.Format("Rlp faild,input:{0}output:{1}",item.Input,item.Output));
@@ -211,20 +214,19 @@ namespace Org.VeChain.Thor.Devkit.UnitTest
                 }
             }
 
-            var cases2 = new EncodeTestCase[]{
-                new EncodeTestCase(new string[]{"aaa", "bbb", "ccc", "ddd", "eee", "fff", "ggg", "hhh", "iii", "jjj", "kkk", "lll", "mmm", "nnn", "ooo"},"0xF83C836161618362626283636363836464648365656583666666836767678368686883696969836A6A6A836B6B6B836C6C6C836D6D6D836E6E6E836F6F6F".ToBytes()),
+            var cases2 = new[]{
+                new EncodeTestCase(new[]{"aaa", "bbb", "ccc", "ddd", "eee", "fff", "ggg", "hhh", "iii", "jjj", "kkk", "lll", "mmm", "nnn", "ooo"},"0xF83C836161618362626283636363836464648365656583666666836767678368686883696969836A6A6A836B6B6B836C6C6C836D6D6D836E6E6E836F6F6F".ToBytes()),
             };
 
             foreach(var item in cases2)
             {
-                byte[] encode = (new RlpArrayKind(new RlpStringKind(true)).EncodeToRlp(item.Input).Encode());
+                byte[] encode = new RlpArrayKind(new RlpStringKind(true)).EncodeToRlp(item.Input).Encode();
                 if(!encode.SequenceEqual(item.Output))
                 {
                     Assert.True(false,string.Format("Rlp faild,input:{0}output:{1}",item.Input,item.Output));
                     break;
                 }
             }
-
 
             Assert.True(true);
         }

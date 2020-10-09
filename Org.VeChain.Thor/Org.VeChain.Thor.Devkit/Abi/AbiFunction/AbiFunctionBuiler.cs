@@ -1,7 +1,5 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using System.Collections.Generic;
-using Nethereum.ABI.JsonDeserialisation;
 using Nethereum.ABI.Model;
 using System;
 using Org.VeChain.Thor.Devkit.Extension;
@@ -35,7 +33,7 @@ namespace Org.VeChain.Thor.Devkit.Abi
             definition.Payable = (bool)abiJson["payable"];
             
             AbiStateMutability stateMutability;
-            Enum.TryParse<AbiStateMutability>(abiJson["stateMutability"].ToString(),true,out stateMutability);
+            Enum.TryParse(abiJson["stateMutability"].ToString(),true,out stateMutability);
             definition.stateMutability = stateMutability;
 
             definition.inputs = (new AbiParameterBuilder()).Builder(abiJson["inputs"].ToString());
@@ -47,10 +45,7 @@ namespace Org.VeChain.Thor.Devkit.Abi
     
         protected internal class AbiFunctionDefinition : IAbiFunctionDefinition
         {
-            public string Type
-            {
-                get { return "function"; }
-            }
+            public string Type => "function";
             public string Name { get; protected internal set; }
 
             public bool Constant { get; protected internal set; }

@@ -17,7 +17,7 @@ namespace Org.VeChain.Thor.Devkit.UnitTest
         [Fact]
         public void TestHDNodeByMnemonic()
         {
-            var works = new string[12]{"mouse","brave","fun","viable","utility","veteran","luggage","area","bike","myself","target","thunder"};
+            var works = new[]{"mouse","brave","fun","viable","utility","veteran","luggage","area","bike","myself","target","thunder"};
             IHDNode node = new HDNode(works);
             IHDNode sonNode = node.Derive(0);
             IHDNode grandNode = sonNode.Derive(1);

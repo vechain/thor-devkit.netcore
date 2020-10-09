@@ -25,11 +25,13 @@ namespace Org.VeChain.Thor.Devkit.Cry
 
         public JObject keystoreConvertToJson()
         {
-            JObject json = new JObject();
-            json["address"] = this.address.ToLower().Replace("0x", "");
-            json["crypto"] = this.crypto;
-            json["id"] = this.id;
-            json["version"] = this.version;
+            JObject json = new JObject
+            {
+                ["address"] = this.address.ToLower().Replace("0x", ""),
+                ["crypto"] = this.crypto,
+                ["id"] = this.id,
+                ["version"] = this.version
+            };
             return json;
         }
 
@@ -47,7 +49,7 @@ namespace Org.VeChain.Thor.Devkit.Cry
         public static Keystore EncryptToStruct(byte[] privateKey, string password)
         {
             Keystore keystore = null;
-            string jsonString = Keystore.EncryptToJson(privateKey, password);
+            string jsonString = EncryptToJson(privateKey, password);
             JsonConvert.DeserializeObject<Keystore>(jsonString);
             return keystore;
         }

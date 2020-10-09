@@ -1,4 +1,3 @@
-using System;
 using Nethereum.ABI;
 
 namespace Org.VeChain.Thor.Devkit.Abi
@@ -23,15 +22,12 @@ namespace Org.VeChain.Thor.Devkit.Abi
 
         public dynamic Result 
         {
-            get{ return this._result; }
-            protected internal set
-            {
-                this._result = value;
-            }
+            get => this._result;
+            protected internal set => this._result = value;
         }
 
         private dynamic _result;
-        private Nethereum.ABI.ABIType _nethABIType;
+        private ABIType _nethABIType;
 
         public class AbiOutputParameterDefinition : IAbiParameterDefinition
         {

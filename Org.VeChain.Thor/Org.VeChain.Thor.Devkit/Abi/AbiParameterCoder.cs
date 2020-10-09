@@ -1,9 +1,5 @@
-using System.Linq;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using Nethereum.ABI;
-using Org.VeChain.Thor.Devkit.Extension;
 using Nethereum.ABI.FunctionEncoding;
 using Nethereum.ABI.Model;
 
@@ -13,23 +9,23 @@ namespace Org.VeChain.Thor.Devkit.Abi
     {
         public static byte[] EncodeParame(AbiInputParameter parameter)
         {
-            return AbiParameterCoder.Encode(new[] {parameter});
+            return Encode(new[] {parameter});
         }
 
         public static byte[] EncodeParames(AbiInputParameter[] parameters)
         {
-            return AbiParameterCoder.Encode(parameters);
+            return Encode(parameters);
         }
 
         public static AbiOutputParameter DecodeParame(IAbiParameterDefinition definition,byte[] data)
         {
-            AbiOutputParameter[] outputs = AbiParameterCoder.Decode(new[]{definition},data);
+            AbiOutputParameter[] outputs = Decode(new[]{definition},data);
             return outputs.Length > 0 ? outputs[0] : null;
         }
 
         public static AbiOutputParameter[] DecodeParames(IAbiParameterDefinition[] parameters,byte[] data)
         {
-            return AbiParameterCoder.Decode(parameters,data);
+            return Decode(parameters,data);
         }
 
         private static byte[] Encode(AbiInputParameter[] parameters)
@@ -68,8 +64,8 @@ namespace Org.VeChain.Thor.Devkit.Abi
             foreach(ParameterOutput output in outputs){
                 try
                 {
-                    AbiOutputParameter abiOutput = new AbiOutputParameter(output.Parameter.Type,output.Parameter.Name);
-                    abiOutput.Result = output.Result;
+                    AbiOutputParameter abiOutput =
+                        new AbiOutputParameter(output.Parameter.Type, output.Parameter.Name) {Result = output.Result};
                     result.Add(abiOutput);
                 }
                 catch(Exception ex)

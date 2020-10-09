@@ -1,6 +1,5 @@
-﻿using System;
+﻿using System.Linq;
 using NBitcoin;
-using Nethereum.HdWallet;
 
 namespace Org.VeChain.Thor.Devkit.Cry
 {
@@ -8,12 +7,7 @@ namespace Org.VeChain.Thor.Devkit.Cry
     {
         public static string WordsJoin(string[] words)
         {
-            string result = "";
-
-            foreach (string word in words)
-            {
-                result = result + word + " ";
-            }
+            string result = words.Aggregate("", (current, word) => current + word + " ");
 
             return result.Trim();
         }
@@ -22,7 +16,7 @@ namespace Org.VeChain.Thor.Devkit.Cry
         {
             try
             {
-                NBitcoin.Mnemonic mnemonic  = new NBitcoin.Mnemonic(Mnemonic.WordsJoin(words));
+                NBitcoin.Mnemonic mnemonic  = new NBitcoin.Mnemonic(WordsJoin(words));
                 return true;
             }
             catch

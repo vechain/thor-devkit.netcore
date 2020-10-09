@@ -1,9 +1,6 @@
 using System.Linq;
 using Xunit;
-using Org.VeChain.Thor.Devkit;
-using System;
 using Xunit.Abstractions;
-using System.Collections.Generic;
 using Org.VeChain.Thor.Devkit.Extension;
 
 namespace Org.VeChain.Thor.Devkit.UnitTest

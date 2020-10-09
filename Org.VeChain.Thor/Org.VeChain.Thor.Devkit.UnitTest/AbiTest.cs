@@ -1,9 +1,5 @@
 using Xunit;
 using Xunit.Abstractions;
-using System.IO;
-using System.Reflection;
-using Nethereum.ABI.JsonDeserialisation;
-using Nethereum.ABI.Model;
 using Org.VeChain.Thor.Devkit.Abi;
 using System.Linq;
 using Org.VeChain.Thor.Devkit.Extension;
@@ -25,7 +21,7 @@ namespace Org.VeChain.Thor.Devkit.UnitTest
         public void TestAbiParameBuilder()
         {
             string abiJson = "[{\"name\":\"to\",\"type\":\"address\"},{\"name\":\"numProposals\",\"type\":\"uint8\"}]";
-            IAbiParameterDefinition[] parames = (new AbiParameterBuilder()).Builder(abiJson);
+            IAbiParameterDefinition[] parames = new AbiParameterBuilder().Builder(abiJson);
             Assert.True(parames.Length == 2);
             Assert.True(parames[0].Name.Equals("to"));
             Assert.True(parames[0].ABIType.Equals("address"));
@@ -118,8 +114,8 @@ namespace Org.VeChain.Thor.Devkit.UnitTest
             AbiEventTopic[] decode = coder.DecodeTopics(topics.ToArray(),data);
             
             Assert.True(decode.Length == 3);
-            Assert.True(decode[0].Definition.Name == "_from" && decode[0].Definition.Indexed == true && (decode[0].Result as string).Equals("0xe4aea9f855d6960d56190fb26e32d0ec2ab40d82"));
-            Assert.True(decode[1].Definition.Name == "_to" && decode[1].Definition.Indexed == true && (decode[1].Result as string).Equals("0xf43a84be55e162034f4c13de65294a3875f15bc9"));
+            Assert.True(decode[0].Definition.Name == "_from" && decode[0].Definition.Indexed && (decode[0].Result as string).Equals("0xe4aea9f855d6960d56190fb26e32d0ec2ab40d82"));
+            Assert.True(decode[1].Definition.Name == "_to" && decode[1].Definition.Indexed && (decode[1].Result as string).Equals("0xf43a84be55e162034f4c13de65294a3875f15bc9"));
             Assert.True(decode[2].Definition.Name == "_value" && decode[2].Definition.Indexed == false && decode[2].Result.ToString().Equals("100000000000000000000"));
         }
     }

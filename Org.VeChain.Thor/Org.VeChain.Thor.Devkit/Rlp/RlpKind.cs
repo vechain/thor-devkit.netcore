@@ -1,13 +1,9 @@
 using System.Numerics;
 using System.Collections.Generic;
-using System.Reflection;
 using System;
 using Org.VeChain.Thor.Devkit.Extension;
-using System.Globalization;
 using Newtonsoft.Json.Linq;
-using System.Linq;
 using Newtonsoft.Json;
-using System.ComponentModel;
 
 namespace Org.VeChain.Thor.Devkit.Rlp
 {
@@ -98,16 +94,13 @@ namespace Org.VeChain.Thor.Devkit.Rlp
             if (obj == null && this.Nullable)
             { return new RlpItem(); }
 
-            Boolean value = false;
-            bool canParse = Boolean.TryParse(obj.ToString(),out value);
+            bool canParse = bool.TryParse(obj.ToString(),out bool value);
             if(canParse)
             {
                 return value.EncodeToRlpItem();
             }
-            else
-            {
-                throw new ArgumentException("value type invalid");
-            }
+
+            throw new ArgumentException("value type invalid");
         }
 
         public dynamic DecodeFromRlp(IRlpItem rlp)
@@ -142,10 +135,7 @@ namespace Org.VeChain.Thor.Devkit.Rlp
         public string Name { get; set; }
         public bool Nullable { get; set; }
 
-        public Type SourceType
-        {
-            get { return typeof(int); }
-        }
+        public Type SourceType => typeof(int);
 
         public RlpIntKind():this("",0,false){}
         public RlpIntKind(string name):this(name,0,false){}
@@ -170,8 +160,7 @@ namespace Org.VeChain.Thor.Devkit.Rlp
                 return new RlpItem();
             }
 
-            Int32 value = 0;
-            bool canParse = Int32.TryParse(obj.ToString(), out value);
+            bool canParse = int.TryParse(obj.ToString(), out int value);
             if (canParse)
             {
                 IRlpItem item = value.EncodeToRlpItem();
@@ -181,10 +170,8 @@ namespace Org.VeChain.Thor.Devkit.Rlp
                 }
                 return item;
             }
-            else
-            {
-                throw new ArgumentException("value type invalid");
-            }
+
+            throw new ArgumentException("value type invalid");
         }
 
         public dynamic DecodeFromRlp(IRlpItem rlp)
@@ -225,10 +212,7 @@ namespace Org.VeChain.Thor.Devkit.Rlp
         public string Name { get; set; }
         public bool Nullable { get; set; }
 
-        public Type SourceType
-        {
-            get { return typeof(long); }
-        }
+        public Type SourceType => typeof(long);
 
         public RlpLongKind(int maxbytes = 0, bool nullable = false)
         {
@@ -248,8 +232,7 @@ namespace Org.VeChain.Thor.Devkit.Rlp
                 return new RlpItem();
             }
 
-            Int64 value;
-            bool canParse = Int64.TryParse(obj.ToString(), out value);
+            bool canParse = long.TryParse(obj.ToString(), out long value);
             if (canParse)
             {
                 IRlpItem item = value.EncodeToRlpItem();
@@ -259,10 +242,8 @@ namespace Org.VeChain.Thor.Devkit.Rlp
                 }
                 return item;
             }
-            else
-            {
-                throw new ArgumentException("value type invalid");
-            }
+
+            throw new ArgumentException("value type invalid");
         }
 
         public dynamic DecodeFromRlp(IRlpItem rlp)
@@ -303,10 +284,7 @@ namespace Org.VeChain.Thor.Devkit.Rlp
         public string Name { get; set; }
         public bool Nullable { get; set; }
 
-        public Type SourceType
-        {
-            get { return typeof(string); }
-        }
+        public Type SourceType => typeof(string);
 
         public RlpStringKind():this("",false,0){}
         public RlpStringKind(bool nullable):this("",nullable,0){}
@@ -331,7 +309,7 @@ namespace Org.VeChain.Thor.Devkit.Rlp
             {
                 throw new ArgumentException("Exceed the maxLength maxbytes");
             }
-            return obj is string ? (obj as string).EncodeToRlpItem() : obj.ToString().EncodeToRlpItem();
+            return obj is string s ? s.EncodeToRlpItem() : obj.ToString().EncodeToRlpItem();
         }
 
         public dynamic DecodeFromRlp(IRlpItem rlp)
@@ -372,10 +350,7 @@ namespace Org.VeChain.Thor.Devkit.Rlp
         public string Name { get; set; }
         public bool Nullable { get; }
 
-        public Type SourceType
-        {
-            get { return typeof(string); }
-        }
+        public Type SourceType => typeof(string);
 
         public RlpHexStringKind(bool nullable = false, int byteLength = 0)
         {
@@ -395,7 +370,7 @@ namespace Org.VeChain.Thor.Devkit.Rlp
                 return new RlpItem();
             }
 
-            string value = obj is String ? obj : obj.ToString();
+            string value = obj is string ? obj : obj.ToString();
 
             if (value.IsHexString())
             {
@@ -404,17 +379,15 @@ namespace Org.VeChain.Thor.Devkit.Rlp
                     throw new ArgumentException("Exceed the maximum byteLength");
                 }
 
-                if (value.ToString().ToLower().Substring(0, 2) == "0x")
+                if (value.ToLower().Substring(0, 2) == "0x")
                 {
-                    value = value.Replace("0x", String.Empty);
+                    value = value.Replace("0x", string.Empty);
                 }
                 value = "0x" + value.TrimStart('0');
                 return new RlpItem(value.ToBytes());
             }
-            else
-            {
-                throw new ArgumentException("it's not hexstring");
-            }
+
+            throw new ArgumentException("it's not hexstring");
         }
 
         public dynamic DecodeFromRlp(IRlpItem rlp)
@@ -425,22 +398,20 @@ namespace Org.VeChain.Thor.Devkit.Rlp
             {
                 return data != "0x" ? data : "";
             }
-            else if (data.Length - 2 <= this._byteLength)
+
+            if (data.Length - 2 <= this._byteLength)
             {
-                if (this.Nullable && data.Replace("0x", String.Empty).Length == 0)
+                if (this.Nullable && data.Replace("0x", string.Empty).Length == 0)
                 {
                     data = "";
                 }
                 else
                 {
-                    data = "0x" + data.Replace("0x", String.Empty).PadLeft(this._byteLength, '0');
+                    data = "0x" + data.Replace("0x", string.Empty).PadLeft(this._byteLength, '0');
                 }
                 return data;
             }
-            else
-            {
-                throw new ArgumentException("Exceed the maximum byteLength");
-            }
+            throw new ArgumentException("Exceed the maximum byteLength");
         }
 
         public IRlpItem EncodeWithJson(JToken jvalue)
@@ -458,7 +429,7 @@ namespace Org.VeChain.Thor.Devkit.Rlp
             return new JValue(this.DecodeFromRlp(rlp));
         }
 
-        private int _byteLength = 0;
+        private readonly int _byteLength = 0;
     }
 
     public class RlpBytesKind : IRlpScalarKind
@@ -466,10 +437,7 @@ namespace Org.VeChain.Thor.Devkit.Rlp
         public string Name { get; set; }
         public bool Nullable { get; set; }
 
-        public Type SourceType
-        {
-            get { return typeof(byte[]); }
-        }
+        public Type SourceType => typeof(byte[]);
 
         public RlpBytesKind():this("",0,false){}
 
@@ -491,32 +459,29 @@ namespace Org.VeChain.Thor.Devkit.Rlp
         {
             if(!this.Nullable)
             {
-                if(obj == null || ((obj is byte[]) && (obj as byte[]).Length == 0) || ((obj is string) && (obj as string).Length == 0))
+                if (obj == null || obj is byte[] bytes && bytes.Length == 0 ||
+                    obj is string s && s.Length == 0)
                 {
                     return new RlpItem();
                 }
             }
 
-            if(obj is string && (obj as string).IsHexString())
+            switch (obj)
             {
-                if (this._maxBytes != 0 && obj.Length > this._maxBytes)
+                case string stringObj when stringObj.IsHexString():
                 {
-                    throw new ArgumentException("Exceed the maximum maxbytes");
+                    if (this._maxBytes != 0 && obj.Length > this._maxBytes)
+                    {
+                        throw new ArgumentException("Exceed the maximum maxbytes");
+                    }
+                    return new RlpItem(stringObj.ToBytes());
                 }
-                return new RlpItem((obj as string).ToBytes());
-            }
-
-            if (obj is byte[])
-            {
-                if (this._maxBytes != 0 && obj.Length > this._maxBytes)
-                {
+                case byte[] _ when this._maxBytes != 0 && obj.Length > this._maxBytes:
                     throw new ArgumentException("Exceed the maximum maxbytes");
-                }
-                return new RlpItem(obj);
-            }
-            else
-            {
-                throw new ArgumentException("invalid item type");
+                case byte[] _:
+                    return new RlpItem(obj);
+                default:
+                    throw new ArgumentException("invalid item type");
             }
         }
 
@@ -592,17 +557,13 @@ namespace Org.VeChain.Thor.Devkit.Rlp
                 JArray jArray = JArray.Parse(jsonStr);
                 return this.EncodeWithJson(jArray);
             }
-            else
+
+            if(this.Nullable)
             {
-                if(this.Nullable)
-                {
-                    return new RlpArray();
-                }
-                else
-                {
-                    throw new ArgumentException("the array is empty");
-                }
+                return new RlpArray();
             }
+
+            throw new ArgumentException("the array is empty");
         }
 
         public dynamic DecodeFromRlp(IRlpItem rlp, Type type)
@@ -622,7 +583,7 @@ namespace Org.VeChain.Thor.Devkit.Rlp
             JArray json = this.DecodeToJson(rlp);
             if(this.Nullable && (rlp == null || rlp.RlpData.Length == 0))
             {
-                return default(T[]);
+                return default;
             }
             dynamic array = JsonConvert.DeserializeObject(json.ToString(), typeof(T[]),new JsonBytesConverter());
             return array;
@@ -634,17 +595,16 @@ namespace Org.VeChain.Thor.Devkit.Rlp
             RlpArray rlpArray = new RlpArray();
             foreach (var item in (items as JArray))
             {
-                if (this.ItemKind is IRlpScalarKind)
+                if (this.ItemKind is IRlpScalarKind rlpScalarKind)
                 {
-                    IRlpItem rlpItem = (this.ItemKind as IRlpScalarKind).EncodeWithJson(item as JValue);
+                    IRlpItem rlpItem = rlpScalarKind.EncodeWithJson(item as JValue);
                     rlpArray.Add(rlpItem);
                 }
-                else if (this.ItemKind is IRlpArrayKind)
+                else if (this.ItemKind is IRlpArrayKind rlpArrayKind)
                 {
-                    if (item is JArray)
+                    if (item is JArray jArray)
                     {
-                        JArray jArray = item as JArray;
-                        RlpArray rArray = (this.ItemKind as IRlpArrayKind).EncodeWithJson(jArray);
+                        RlpArray rArray = rlpArrayKind.EncodeWithJson(jArray);
                         rlpArray.Add(rArray);
                     }
                     else
@@ -652,14 +612,14 @@ namespace Org.VeChain.Thor.Devkit.Rlp
                         throw new ArgumentException("invalid item type");
                     }
                 }
-                else if (this.ItemKind is IRplStructKind)
+                else if (this.ItemKind is IRplStructKind rplStructKind)
                 {
-                    RlpArray rArray = (this.ItemKind as IRplStructKind).EncodeWithJson(item);
+                    RlpArray rArray = rplStructKind.EncodeWithJson(item);
                     rlpArray.Add(rArray);
                 }
-                else if(this.ItemKind is IRlpCustomKind)
+                else if(this.ItemKind is IRlpCustomKind rlpCustomKind)
                 {
-                    IRlpItem rlpItem = (this.ItemKind as IRlpCustomKind).EncodeWithJson(item);
+                    IRlpItem rlpItem = rlpCustomKind.EncodeWithJson(item);
                     rlpArray.Add(rlpItem);
                 }
             }
@@ -672,11 +632,11 @@ namespace Org.VeChain.Thor.Devkit.Rlp
             RlpArray list;
             if (rlp.RlpType == RlpType.Array)
             {
-                list = (rlp as RlpArray);
+                list = rlp as RlpArray;
             }
             else
             {
-                list = (new RlpArray()).Decode(rlp.RlpData) as RlpArray;
+                list = new RlpArray().Decode(rlp.RlpData) as RlpArray;
             }
 
             if (this._maxLength != 0 && list.Count > this._maxLength)
@@ -686,25 +646,25 @@ namespace Org.VeChain.Thor.Devkit.Rlp
 
             foreach (IRlpItem rlpItem in list)
             {
-                if (this.ItemKind is IRlpScalarKind)
+                if (this.ItemKind is IRlpScalarKind rlpScalarKind)
                 {
-                    JValue jvalue = (this.ItemKind as IRlpScalarKind).DecodeToJson(rlpItem);
+                    JValue jvalue = rlpScalarKind.DecodeToJson(rlpItem);
                     jsonArray.Add(jvalue);
                 }
-                else if (this.ItemKind is IRlpArrayKind)
+                else if (this.ItemKind is IRlpArrayKind rlpArrayKind)
                 {
-                    JArray items = (this.ItemKind as IRlpArrayKind).DecodeToJson(rlpItem);
+                    JArray items = rlpArrayKind.DecodeToJson(rlpItem);
                     jsonArray.Add(items);
 
                 }
-                else if (this.ItemKind is IRplStructKind)
+                else if (this.ItemKind is IRplStructKind rplStructKind)
                 {
-                    JToken item = (this.ItemKind as IRplStructKind).DecodeToJson(rlpItem);
+                    JToken item = rplStructKind.DecodeToJson(rlpItem);
                     jsonArray.Add(item);
                 }
-                else if(this.ItemKind is IRlpCustomKind)
+                else if(this.ItemKind is IRlpCustomKind rlpCustomKind)
                 {
-                    JToken item = (this.ItemKind as IRlpCustomKind).DecodeToJson(rlpItem);
+                    JToken item = rlpCustomKind.DecodeToJson(rlpItem);
                     jsonArray.Add(item);
                 }
             }
@@ -712,7 +672,7 @@ namespace Org.VeChain.Thor.Devkit.Rlp
             return jsonArray;
         }
 
-        private int _maxLength = 0;
+        private readonly int _maxLength = 0;
     }
 
     public class RlpStructKind : IRplStructKind
@@ -756,24 +716,24 @@ namespace Org.VeChain.Thor.Devkit.Rlp
 
             foreach (IRlpKind kind in Properties)
             {
-                if (kind is IRlpScalarKind)
+                if (kind is IRlpScalarKind rlpScalarKind)
                 {
-                    IRlpItem rlpItem = (kind as IRlpScalarKind).EncodeWithJson(item[kind.Name]);
+                    IRlpItem rlpItem = rlpScalarKind.EncodeWithJson(item[rlpScalarKind.Name]);
                     result.Add(rlpItem);
                 }
-                else if (kind is IRlpArrayKind)
+                else if (kind is IRlpArrayKind rlpArrayKind)
                 {
-                    RlpArray rArray = (kind as IRlpArrayKind).EncodeWithJson(item[kind.Name]);
+                    RlpArray rArray = rlpArrayKind.EncodeWithJson(item[rlpArrayKind.Name]);
                     result.Add(rArray);
                 }
-                else if (kind is IRplStructKind)
+                else if (kind is IRplStructKind rplStructKind)
                 {
-                    RlpArray rArray = (kind as IRplStructKind).EncodeWithJson(item[kind.Name]);
+                    RlpArray rArray = rplStructKind.EncodeWithJson(item[rplStructKind.Name]);
                     result.Add(rArray);
                 }
-                else if(kind is IRlpCustomKind)
+                else if(kind is IRlpCustomKind rlpCustomKind)
                 {
-                    IRlpItem rlpItem = (kind as IRlpCustomKind).EncodeWithJson(item[kind.Name]);
+                    IRlpItem rlpItem = rlpCustomKind.EncodeWithJson(item[rlpCustomKind.Name]);
                     result.Add(rlpItem);
                 }
             }
@@ -791,7 +751,7 @@ namespace Org.VeChain.Thor.Devkit.Rlp
             }
             else
             {
-                rlpArray = ((new RlpArray()).Decode(rlp.RlpData) as RlpArray);
+                rlpArray = new RlpArray().Decode(rlp.RlpData) as RlpArray;
             }
 
             if (this.Nullable && rlpArray.Count == 0)
@@ -804,25 +764,25 @@ namespace Org.VeChain.Thor.Devkit.Rlp
                 for (int index = 0; index < rlpArray.Count; index++)
                 {
                     IRlpKind kind = Properties[index];
-                    if (kind is IRlpScalarKind)
+                    if (kind is IRlpScalarKind rlpScalarKind)
                     {
-                        JValue jvalue = (kind as IRlpScalarKind).DecodeToJson(rlpArray[index]);
-                        json[kind.Name] = jvalue;
+                        JValue jvalue = rlpScalarKind.DecodeToJson(rlpArray[index]);
+                        json[rlpScalarKind.Name] = jvalue;
                     }
-                    else if (kind is IRlpArrayKind)
+                    else if (kind is IRlpArrayKind rlpArrayKind)
                     {
-                        var value = (kind as IRlpArrayKind).DecodeToJson(rlpArray[index]);
-                        json[kind.Name] = value;
+                        var value = rlpArrayKind.DecodeToJson(rlpArray[index]);
+                        json[rlpArrayKind.Name] = value;
                     }
-                    else if (kind is IRplStructKind)
+                    else if (kind is IRplStructKind rplStructKind)
                     {
-                        var value = (kind as IRplStructKind).DecodeToJson(rlpArray[index]);
-                        json[kind.Name] = value;
+                        var value = rplStructKind.DecodeToJson(rlpArray[index]);
+                        json[rplStructKind.Name] = value;
                     }
-                    else if(kind is IRlpCustomKind)
+                    else if(kind is IRlpCustomKind rlpCustomKind)
                     {
-                        var value = (kind as IRlpCustomKind).DecodeToJson(rlpArray[index]);
-                        json[kind.Name] = value;
+                        var value = rlpCustomKind.DecodeToJson(rlpArray[index]);
+                        json[rlpCustomKind.Name] = value;
                     }
                 }
             }

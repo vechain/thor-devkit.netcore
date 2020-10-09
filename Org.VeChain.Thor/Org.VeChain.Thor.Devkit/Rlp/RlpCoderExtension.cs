@@ -1,7 +1,6 @@
 using Nethereum.RLP;
 using System.Numerics;
 using System.Collections.Generic;
-using System;
 using System.Linq;
 
 namespace Org.VeChain.Thor.Devkit.Rlp
@@ -50,69 +49,56 @@ namespace Org.VeChain.Thor.Devkit.Rlp
         {
             if(item.RlpData != null && item.RlpData.Length != 0)
             {
-                return (item as RlpItem).RlpData.ToBigIntegerFromRLPDecoded();
+                return item.RlpData.ToBigIntegerFromRLPDecoded();
             }
-            else
-            {
-                return BigInteger.Zero;
-            }
+
+            return BigInteger.Zero;
         }
 
-        public static Boolean DecodeToBoolean(this RlpItem item)
+        public static bool DecodeToBoolean(this RlpItem item)
         {
             if(item.RlpData != null && item.RlpData.Length != 0)
             {
-                return item.RlpData.SequenceEqual(new byte[1]{01}) ?  true : false;
+                return item.RlpData.SequenceEqual(new byte[]{01});
             }
-            else
-            {
-                return false;
-            }
+
+            return false;
         }
 
         public static int DecodeToInt(this RlpItem item)
         {
             if(item.RlpData != null && item.RlpData.Length != 0)
             {
-                return (item as RlpItem).RlpData.ToIntFromRLPDecoded();
+                return item.RlpData.ToIntFromRLPDecoded();
             }
-            else
-            {
-                return 0;
-            }
+
+            return 0;
         }
     
         public static long DecodeToLong(this RlpItem item)
         {
             if(item.RlpData != null && item.RlpData.Length != 0)
             {
-                return (item as RlpItem).RlpData.ToLongFromRLPDecoded();
+                return item.RlpData.ToLongFromRLPDecoded();
             }
-            else
-            {
-                return 0;
-            }
+
+            return 0;
         }
     
         public static string DecodeToString(this RlpItem item)
         {
             if(item.RlpData != null && item.RlpData.Length != 0)
             {
-                return (item as RlpItem).RlpData.ToStringFromRLPDecoded();
+                return item.RlpData.ToStringFromRLPDecoded();
             }
-            else
-            {
-                return "";
-            }
+
+            return "";
         }
     
         public static byte[][] DecodeToList(this RlpArray array)
         {
             List<byte[]> datas = new List<byte[]>(array.Count);
-            foreach(IRlpItem item in array)
-            {
-                datas.Add(item.RlpData);
-            }
+            datas.AddRange(array.Select(item => item.RlpData));
             return datas.ToArray();
         }
     }

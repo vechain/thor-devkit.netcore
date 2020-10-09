@@ -1,6 +1,5 @@
 using Nethereum.RLP;
 using System.Collections.Generic;
-using Org.VeChain.Thor.Devkit.Extension;
 
 namespace Org.VeChain.Thor.Devkit.Rlp
 {
@@ -26,19 +25,14 @@ namespace Org.VeChain.Thor.Devkit.Rlp
             {
                 return RlpType.Item;
             }
-            else
-            {
-                return RlpType.Array;
-            }
-            
+
+            return RlpType.Array;
         }
     }
 
     public class RlpItem:IRlpItem
     {
-        public RlpType RlpType { 
-            get { return RlpType.Item; } 
-        }
+        public RlpType RlpType => RlpType.Item;
 
         public byte[] RlpData { get; set; }
 
@@ -65,9 +59,7 @@ namespace Org.VeChain.Thor.Devkit.Rlp
 
     public class RlpArray:List<IRlpItem>,IRlpItem
     {
-        public RlpType RlpType { 
-            get { return RlpType.Array; } 
-        }
+        public RlpType RlpType => RlpType.Array;
 
         public RlpArray(){}
 
