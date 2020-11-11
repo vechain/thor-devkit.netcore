@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 namespace Org.VeChain.Thor.Devkit.Abi
 {
     public interface IAbiFunctionDefinition

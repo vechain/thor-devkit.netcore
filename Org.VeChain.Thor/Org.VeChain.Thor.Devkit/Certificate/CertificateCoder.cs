@@ -1,6 +1,5 @@
 using System;
 using Newtonsoft.Json.Linq;
-using Org.VeChain.Thor.Devkit.Extension;
 using Org.VeChain.Thor.Devkit.Cry;
 using Newtonsoft.Json;
 

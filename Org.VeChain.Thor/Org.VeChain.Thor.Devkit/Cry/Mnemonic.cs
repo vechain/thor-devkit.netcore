@@ -1,6 +1,4 @@
-﻿using System;
-using NBitcoin;
-using Nethereum.HdWallet;
+﻿using NBitcoin;
 
 namespace Org.VeChain.Thor.Devkit.Cry
 {

@@ -1,6 +1,5 @@
 using Nethereum.RLP;
 using System.Collections.Generic;
-using Org.VeChain.Thor.Devkit.Extension;
 
 namespace Org.VeChain.Thor.Devkit.Rlp
 {

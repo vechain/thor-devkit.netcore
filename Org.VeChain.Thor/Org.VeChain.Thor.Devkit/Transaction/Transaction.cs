@@ -7,7 +7,6 @@ using Org.VeChain.Thor.Devkit.Extension;
 using System.IO;
 using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
-using Newtonsoft.Json.Converters;
 using Newtonsoft.Json;
 
 namespace Org.VeChain.Thor.Devkit.Transaction

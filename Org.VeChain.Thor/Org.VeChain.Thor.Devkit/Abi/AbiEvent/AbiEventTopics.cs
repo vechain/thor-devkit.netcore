@@ -1,5 +1,3 @@
-
-
 namespace Org.VeChain.Thor.Devkit.Abi
 {
     public class AbiEventTopic

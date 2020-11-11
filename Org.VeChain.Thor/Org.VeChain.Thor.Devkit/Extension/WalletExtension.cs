@@ -1,5 +1,4 @@
-﻿using System;
-using Nethereum.HdWallet;
+﻿using Nethereum.HdWallet;
 using NBitcoin;
 
 namespace Org.VeChain.Thor.Devkit.Extension

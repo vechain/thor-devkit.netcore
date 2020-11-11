@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using Nethereum.HdWallet;
 using Org.VeChain.Thor.Devkit.Extension;
 using NBitcoin;

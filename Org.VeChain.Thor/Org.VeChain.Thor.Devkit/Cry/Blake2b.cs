@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.HashFunction.Blake2;
+﻿using System.Data.HashFunction.Blake2;
 using System.Text;
-using Org.VeChain.Thor.Devkit.Extension;
 
 namespace Org.VeChain.Thor.Devkit.Cry
 {

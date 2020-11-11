@@ -1,5 +1,4 @@
 using System.Linq;
-
 namespace Org.VeChain.Thor.Devkit.Abi
 {
     public interface IAbiEventDefinition

@@ -2,9 +2,7 @@
 using System.Text;
 using Nethereum.Signer.Crypto;
 using System.Collections.Generic;
-using Nethereum.Signer;
 using Org.BouncyCastle.Math;
-using Org.VeChain.Thor.Devkit.Extension;
 using System.Linq;
 using Org.BouncyCastle.Asn1;
 

@@ -1,4 +1,3 @@
-using System.Security.Cryptography.X509Certificates;
 using Nethereum.KeyStore.Crypto;
 using Org.VeChain.Thor.Devkit.Extension;
 using System.Text.RegularExpressions;
