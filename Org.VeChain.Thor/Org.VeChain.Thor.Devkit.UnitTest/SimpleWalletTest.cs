@@ -24,8 +24,8 @@ namespace Org.VeChain.Thor.Devkit.UnitTest
         [Fact]
         public void TestPublicKeyToAddress()
         {
-            var pubKey = "0x04cfd9860ac8f054e1cf77801cebe587d4f8dc35d96f22f7e140ec058ac9c6ab730c1f4682f0c1b24302aba2a8d6e8e0f5046c1a13bcb8356ab48ccb73f552e143".ToBytes();
-            var address = "0x08cbc6738798954761cf84fd5da9f48141fc520b";
+            var pubKey = "0x04b90e9bb2617387eba4502c730de65a33878ef384a46f1096d86f2da19043304afa67d0ad09cf2bea0c6f2d1767a9e62a7a7ecc41facf18f2fa505d92243a658f".ToBytes();
+            var address = "0xd989829d88b0ed1b06edf5c50174ecfa64f14a64";
             Assert.True(SimpleWallet.PublicKeyToAddress(pubKey) == address);
         }
 
