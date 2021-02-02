@@ -1,6 +1,8 @@
 using Xunit;
 using Org.VeChain.Thor.Devkit.Extension;
 using Org.VeChain.Thor.Devkit.Certificate;
+using Newtonsoft.Json.Linq;
+using System;
 
 namespace Org.VeChain.Thor.Devkit.UnitTest
 {

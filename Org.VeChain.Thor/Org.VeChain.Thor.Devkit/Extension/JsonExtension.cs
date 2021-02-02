@@ -1,6 +1,8 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Org.VeChain.Thor.Devkit.Extension
 {
@@ -33,6 +35,26 @@ namespace Org.VeChain.Thor.Devkit.Extension
             {
                 writer.WriteValue(value.ToHexString());
             }
+        }
+    }
+
+    public static class JsonExtension
+    {
+        public static JObject SortProperties(this JObject jobj)
+        {
+            var sortJObject = new JObject();
+            
+            foreach(var property in jobj.Properties().ToList().OrderBy(p=>p.Name))
+            {
+                var value = property.Value as JObject;
+                if(value != null){
+                    value = value.SortProperties();
+                    sortJObject.Add(property.Name,value);
+                } else {
+                    sortJObject.Add(property.Name,property.Value);
+                }
+            }
+            return sortJObject;
         }
     }
 }

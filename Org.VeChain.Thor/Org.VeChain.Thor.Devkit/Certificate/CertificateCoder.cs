@@ -1,7 +1,7 @@
 using System;
 using Newtonsoft.Json.Linq;
 using Org.VeChain.Thor.Devkit.Cry;
-using Newtonsoft.Json;
+using Org.VeChain.Thor.Devkit.Extension;
 
 namespace Org.VeChain.Thor.Devkit.Certificate
 {
@@ -15,7 +15,7 @@ namespace Org.VeChain.Thor.Devkit.Certificate
         public static byte[] SigningHash(ICertificate certificate)
         {
             JToken json = CertificateCoder.ConvertToJsonObjectWithNoSignature(certificate);
-            return Blake2b.CalculateHash(json.ToString(Formatting.None));
+            return Blake2b.CalculateHash(json.ToObject<JObject>().SortProperties().ToString());
         }
 
         /// <summary>
