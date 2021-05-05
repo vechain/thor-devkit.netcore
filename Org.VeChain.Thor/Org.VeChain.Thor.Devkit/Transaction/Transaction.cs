@@ -308,7 +308,10 @@ namespace Org.VeChain.Thor.Devkit.Transaction
         {
             if(unsigned)
             {
-                return RlpCode.Decode(Transaction.UnsignedRlpDefinition(),raw,typeof(Transaction));
+                var txbody = RlpCode.Decode(Transaction.UnsignedRlpDefinition(),raw,typeof(Body));
+                var tx = new Transaction();
+                tx.Body = txbody;
+                return tx;
             }
             else
             {

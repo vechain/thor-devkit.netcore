@@ -36,6 +36,8 @@ namespace Org.VeChain.Thor.Devkit.UnitTest
             byte[] encode = (new Transaction.Transaction(txbody)).Encode();
             var encode2 = "f8844a875d64da8e7321bd12f869e294a4adafaef9ec07bc4dc6de146934c7119341ee25830186a0882398479812734981e294a4adafaef9ec07bc4dc6de146934c7119341ee25830186a0882398479812734981e294a4adafaef9ec07bc4dc6de146934c7119341ee25830186a0882398479812734981808252088088d6846cde87878603c0".ToBytes();
             Assert.True(encode.SequenceEqual(encode2));
+
+            
         }
 
         [Fact]
@@ -82,7 +84,7 @@ namespace Org.VeChain.Thor.Devkit.UnitTest
         {
             var rlpcode = "f8844a875d64da8e7321bd12f869e294a4adafaef9ec07bc4dc6de146934c7119341ee25830186a0882398479812734981e294a4adafaef9ec07bc4dc6de146934c7119341ee25830186a0882398479812734981e294a4adafaef9ec07bc4dc6de146934c7119341ee25830186a0882398479812734981808252088088d6846cde87878603c0".ToBytes();
             var transaction = Transaction.Transaction.Decode(rlpcode);
-            Assert.True(transaction != null);
+            Assert.True(transaction != null && transaction.Body != null);
         }
 
         [Fact]
