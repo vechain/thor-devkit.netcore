@@ -8,7 +8,7 @@
     <Owners>VeChain Foundation</Owners>
     <Title>Thor Devkit .NetCore</Title>
     <Description>.NetCore library to assist smooth development on VeChainThor BlockChain for developers and hobbyists.</Description>
-    <Version>1.0.1</Version>
+    <Version>1.0.2</Version>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Nethereum.Util" Version="3.7.1"/>
